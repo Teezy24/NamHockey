@@ -1,0 +1,215 @@
+package com.example.namhockey
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+
+@Composable
+fun HomeScreen() {
+    Column(modifier = Modifier.fillMaxSize()) {
+        ProfileRow()
+        Spacer(modifier = Modifier.height(16.dp))
+        NewsSection() // Add the news section
+        // Add other content for the Home Screen below
+    }
+}
+
+@Composable
+fun ProfileRow() {
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp.dp
+    Row(
+        modifier = Modifier
+            .fillMaxWidth() // Take up 90% of the screen width
+            .padding(16.dp)
+            .clip(RoundedCornerShape(16.dp)) // Apply rounded corners
+            .border(2.dp, Color.Blue, RoundedCornerShape(16.dp)) // Add border with rounded corners
+            .padding(16.dp)
+            .width(screenWidth * 0.9f),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        // Team Logo
+        Image(
+            painter = painterResource(id = R.drawable.anchor), // Replace with your team logo resource
+            contentDescription = "Team Logo",
+            modifier = Modifier
+                .size(40.dp)
+                .background(Color.White), // Added background to the logo
+            contentScale = ContentScale.Fit
+        )
+
+        // Profile Icon
+        Image(
+            painter = painterResource(id = R.drawable.profile), // Replace with your profile icon resource
+            contentDescription = "Profile Icon",
+            modifier = Modifier
+                .size(40.dp)
+                .background(Color.White),// Added background to the profile icon
+            contentScale = ContentScale.Fit
+        )
+    }
+}
+
+@Composable
+fun MatchScreen() {
+    Column(modifier = Modifier.fillMaxSize().background(Color.Black)) {
+        TimeBadge("23:12")
+        MatchCard()
+        TabSelector(selectedTab = "For You", onTabSelected = {})
+        Spacer(modifier = Modifier.weight(1f))
+        BottomNavigationBar(
+            tabs = TODO(),
+            selectedTab = TODO(),
+            onTabSelected = TODO()
+        )
+    }
+}
+
+@Composable
+fun TimeBadge(time: String) {
+    Box(
+        modifier = Modifier
+            .padding(16.dp)
+            .background(Color(0xFF00C853), shape = RoundedCornerShape(12.dp))
+            .padding(horizontal = 12.dp, vertical = 4.dp)
+    ) {
+        Text(text = time, color = Color.White)
+    }
+}
+
+@Composable
+fun MatchCard() {
+    Card(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+            .background(Color(0xFF1E1E1E), shape = RoundedCornerShape(12.dp)),
+        elevation = CardDefaults.cardElevation(8.dp)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text("Everton", color = Color.White)
+                Text("Tomorrow 16:00", color = Color.White)
+                Text("Manchester City", color = Color.White)
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                MatchStat("W", "8%", "2")
+                MatchStat("D", "26%", "6")
+                MatchStat("W", "66%", "16", highlight = true)
+            }
+        }
+    }
+}
+
+@Composable
+fun MatchStat(label: String, percent: String, value: String, highlight: Boolean = false) {
+    val bgColor = if (highlight) Color(0xFF00E676) else Color(0xFF333333)
+    Column(
+        modifier = Modifier
+            .clip(RoundedCornerShape(8.dp))
+            .background(bgColor)
+            .padding(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text("$label • $percent", color = Color.White)
+        Text(value, fontWeight = FontWeight.Bold, color = Color.White)
+    }
+}
+
+@Composable
+fun NewsSection() {
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text(
+            text = "Latest News",
+            fontWeight = FontWeight.Bold,
+            color = Color.Black,
+            modifier = Modifier.padding(bottom = 8.dp))
+
+        NewsCard(title = "Team A wins the championship", description = "Team A defeated Team B in a thrilling final.")
+        Spacer(modifier = Modifier.height(8.dp))
+        NewsCard(title = "Player X breaks record", description = "Player X sets a new record for most goals in a season.")
+        Spacer(modifier = Modifier.height(8.dp))
+        NewsCard(title = "Upcoming match preview", description = "A detailed preview of the upcoming match between Team C and Team D.")
+    }
+}
+
+@Composable
+fun NewsCard(title: String, description: String) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(4.dp)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(text = title, fontWeight = FontWeight.Bold, color = Color.Black)
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(text = description, color = Color.Gray)
+        }
+    }
+}
+
+
+
+@Composable
+fun TabSelector(selectedTab: String, onTabSelected: (String) -> Unit) {
+    Row(modifier = Modifier.padding(16.dp)) {
+        TabButton("For You", selected = selectedTab == "For You") {
+            onTabSelected("For You")
+        }
+        Spacer(modifier = Modifier.width(8.dp))
+        TabButton("Top News", selected = selectedTab == "Top News") {
+            onTabSelected("Top News")
+        }
+    }
+}
+
+@Composable
+fun TabButton(label: String, selected: Boolean, onClick: () -> Unit) {
+    val bgColor = if (selected) Color.White else Color(0xFF2E2E2E)
+    val textColor = if (selected) Color.Black else Color.White
+    Box(
+        modifier = Modifier
+            .clip(RoundedCornerShape(24.dp))
+            .background(bgColor)
+            .padding(horizontal = 20.dp, vertical = 8.dp)
+            .clickable(onClick = onClick)
+    ) {
+        Text(label, color = textColor)
+    }
+}
