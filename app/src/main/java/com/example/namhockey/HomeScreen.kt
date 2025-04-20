@@ -15,7 +15,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -32,9 +34,11 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun HomeScreen() {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize()
+        .verticalScroll(rememberScrollState())) {
         ProfileRow()
         Spacer(modifier = Modifier.height(16.dp))
+        MatchScreen()
         NewsSection() // Add the news section
         // Add other content for the Home Screen below
     }
@@ -79,16 +83,10 @@ fun ProfileRow() {
 
 @Composable
 fun MatchScreen() {
-    Column(modifier = Modifier.fillMaxSize().background(Color.Black)) {
-        TimeBadge("23:12")
+    Column(modifier = Modifier.fillMaxSize().background(Color.White)) {
         MatchCard()
-        TabSelector(selectedTab = "For You", onTabSelected = {})
         Spacer(modifier = Modifier.weight(1f))
-        BottomNavigationBar(
-            tabs = TODO(),
-            selectedTab = TODO(),
-            onTabSelected = TODO()
-        )
+
     }
 }
 
@@ -118,9 +116,9 @@ fun MatchCard() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("Everton", color = Color.White)
-                Text("Tomorrow 16:00", color = Color.White)
-                Text("Manchester City", color = Color.White)
+                Text("Everton", color = Color.Black)
+                Text("Tomorrow 16:00", color = Color.Black)
+                Text("Manchester City", color = Color.Black)
             }
             Spacer(modifier = Modifier.height(16.dp))
             Row(
@@ -184,32 +182,3 @@ fun NewsCard(title: String, description: String) {
     }
 }
 
-
-
-@Composable
-fun TabSelector(selectedTab: String, onTabSelected: (String) -> Unit) {
-    Row(modifier = Modifier.padding(16.dp)) {
-        TabButton("For You", selected = selectedTab == "For You") {
-            onTabSelected("For You")
-        }
-        Spacer(modifier = Modifier.width(8.dp))
-        TabButton("Top News", selected = selectedTab == "Top News") {
-            onTabSelected("Top News")
-        }
-    }
-}
-
-@Composable
-fun TabButton(label: String, selected: Boolean, onClick: () -> Unit) {
-    val bgColor = if (selected) Color.White else Color(0xFF2E2E2E)
-    val textColor = if (selected) Color.Black else Color.White
-    Box(
-        modifier = Modifier
-            .clip(RoundedCornerShape(24.dp))
-            .background(bgColor)
-            .padding(horizontal = 20.dp, vertical = 8.dp)
-            .clickable(onClick = onClick)
-    ) {
-        Text(label, color = textColor)
-    }
-}
