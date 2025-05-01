@@ -8,14 +8,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -24,6 +25,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.namhockey.ui.theme.NamHockeyTheme
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
+import androidx.compose.runtime.mutableIntStateOf
+import com.example.namhockey.ui.screens.SquadScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,8 +44,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen(modifier: Modifier = Modifier) { // Added modifier parameter with default value
-    val tabs = listOf("Home", "Events", "Team", "Settings")
-    var selectedTab by remember { mutableStateOf(0) }
+    val tabs = listOf("Home", "Standings", "Squad", "Settings")
+    var selectedTab by remember { mutableIntStateOf(0) }
     Scaffold(
         bottomBar = {
             BottomNavigationBar(
@@ -62,8 +65,8 @@ fun MainScreen(modifier: Modifier = Modifier) { // Added modifier parameter with
         ) {
             when (selectedTab) {
                 0 -> HomeScreen()
-                1 -> Text("Events Screen")
-                2 -> Text("Team Screen")
+                1 -> StandingsScreen()
+                2 -> SquadScreen()
                 3 -> Text("Settings Screen")
             }
         }
@@ -85,8 +88,8 @@ fun BottomNavigationBar(
                 icon = {
                     when (index) {
                         0 -> Icon(Icons.Default.Home, contentDescription = null)
-                        1 -> Icon(Icons.Default.Home, contentDescription = null)
-                        2 -> Icon(Icons.Default.Home, contentDescription = null)
+                        1 -> Icon(Icons.Default.Menu, contentDescription = null)
+                        2 -> Icon(Icons.Default.Create, contentDescription = null)
                         3 -> Icon(Icons.Default.Settings, contentDescription = null)
                         else -> Icon(Icons.Default.Home, contentDescription = null)
                     }
@@ -101,5 +104,7 @@ fun BottomNavigationBar(
 fun NamHockey() {
     NamHockeyTheme {
         MainScreen()
+        StandingsScreen()
+        SquadScreen()
     }
 }
