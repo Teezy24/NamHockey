@@ -53,7 +53,8 @@ fun TeamsListView(
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,
     onTeamSelected: (Team) -> Unit,
-    onAddTeamClicked: () -> Unit
+    onAddTeamClicked: () -> Unit,
+    onAddPlayerClicked: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -102,7 +103,7 @@ fun TeamsListView(
             }
 
             Button(
-                onClick = { /* Add player functionality */ },
+                onClick =  onAddPlayerClicked,
                 modifier = Modifier.weight(1f)
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -366,6 +367,8 @@ fun SquadScreen() {
     var selectedTeam by remember { mutableStateOf<Team?>(null) }
     var searchQuery by remember { mutableStateOf("") }
     var showAddTeamForm by remember { mutableStateOf(false) }
+    var showAddPlayerForm by remember { mutableStateOf(false) }
+
 
     // Mock data
     val teams = remember {
@@ -383,13 +386,18 @@ fun SquadScreen() {
             showAddTeamForm -> {
                 TeamRegistrationForm(onSubmit = { showAddTeamForm = false })
             }
+            showAddPlayerForm -> {
+                PlayerRegistrationForm(onSubmit = { showAddPlayerForm = false })
+            }
             selectedTeam == null -> {
+
                 TeamsListView(
                     teams = teams,
                     searchQuery = searchQuery,
                     onSearchQueryChange = { searchQuery = it },
                     onTeamSelected = { selectedTeam = it },
-                    onAddTeamClicked = { showAddTeamForm = true }
+                    onAddTeamClicked = { showAddTeamForm = true },
+                    onAddPlayerClicked = { showAddPlayerForm = true }
                 )
             }
             else -> {
@@ -509,3 +517,96 @@ fun TeamRegistrationForm(onSubmit: () -> Unit) {
     }
 
 }
+
+@Composable
+fun PlayerRegistrationForm(onSubmit: () -> Unit) {
+    var firstName by remember { mutableStateOf("") }
+    var surname by remember { mutableStateOf("") }
+    var dob by remember { mutableStateOf("") }
+    var gender by remember { mutableStateOf("") }
+    var nationality by remember { mutableStateOf("") }
+    var phoneNumber by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var clubName by remember { mutableStateOf("") }
+    var teamCategory by remember { mutableStateOf("") }
+    var position by remember { mutableStateOf("") }
+    var jerseyNumber by remember { mutableStateOf("") }
+    var consentConduct by remember { mutableStateOf(false) }
+    var consentMedia by remember { mutableStateOf(false) }
+    var consentTerms by remember { mutableStateOf(false) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState())
+    ) {
+        Text(
+            text = "Player Registration",
+            fontSize = 22.sp,
+            fontWeight = FontWeight.Bold
+        )
+
+        Spacer(Modifier.height(16.dp))
+
+        Text("Personal Information", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+        Spacer(Modifier.height(8.dp))
+        OutlinedTextField(value = firstName, onValueChange = { firstName = it }, label = { Text("First Name *") }, modifier = Modifier.fillMaxWidth())
+        OutlinedTextField(value = surname, onValueChange = { surname = it }, label = { Text("Surname *") }, modifier = Modifier.fillMaxWidth())
+        OutlinedTextField(value = dob, onValueChange = { dob = it }, label = { Text("Date of Birth") }, modifier = Modifier.fillMaxWidth())
+        OutlinedTextField(value = gender, onValueChange = { gender = it }, label = { Text("Gender") }, modifier = Modifier.fillMaxWidth())
+        OutlinedTextField(value = nationality, onValueChange = { nationality = it }, label = { Text("Nationality") }, modifier = Modifier.fillMaxWidth())
+
+        Spacer(Modifier.height(16.dp))
+
+        Text("Contact Information", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+        Spacer(Modifier.height(8.dp))
+        OutlinedTextField(value = phoneNumber, onValueChange = { phoneNumber = it }, label = { Text("Phone Number *") }, modifier = Modifier.fillMaxWidth())
+        OutlinedTextField(value = email, onValueChange = { email = it }, label = { Text("Email *") }, modifier = Modifier.fillMaxWidth())
+
+        Spacer(Modifier.height(16.dp))
+
+        Text("Team Information", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+        Spacer(Modifier.height(8.dp))
+        OutlinedTextField(value = clubName, onValueChange = { clubName = it }, label = { Text("Club Name") }, modifier = Modifier.fillMaxWidth())
+        OutlinedTextField(value = teamCategory, onValueChange = { teamCategory = it }, label = { Text("Team Category") }, modifier = Modifier.fillMaxWidth())
+        OutlinedTextField(value = position, onValueChange = { position = it }, label = { Text("Player Position") }, modifier = Modifier.fillMaxWidth())
+        OutlinedTextField(value = jerseyNumber, onValueChange = { jerseyNumber = it }, label = { Text("Jersey Number") }, modifier = Modifier.fillMaxWidth())
+
+        Spacer(Modifier.height(16.dp))
+
+        Text("Consent", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+        Spacer(Modifier.height(8.dp))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Checkbox(checked = consentConduct, onCheckedChange = { consentConduct = it })
+            Spacer(Modifier.width(8.dp))
+            Text("I agree to the Code of Conduct")
+        }
+
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Checkbox(checked = consentMedia, onCheckedChange = { consentMedia = it })
+            Spacer(Modifier.width(8.dp))
+            Text("I consent to image/media use")
+        }
+
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Checkbox(checked = consentTerms, onCheckedChange = { consentTerms = it })
+            Spacer(Modifier.width(8.dp))
+            Text("I agree to Terms & Conditions")
+        }
+
+        Spacer(Modifier.height(24.dp))
+
+        Button(
+            onClick = {
+                if (consentTerms && firstName.isNotBlank() && surname.isNotBlank() && phoneNumber.isNotBlank() && email.isNotBlank()) {
+                    onSubmit()
+                }
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Submit")
+        }
+    }
+}
+
