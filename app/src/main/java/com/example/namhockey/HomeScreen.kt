@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
@@ -29,7 +30,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+
 
 @Composable
 fun HomeScreen() {
@@ -37,6 +41,7 @@ fun HomeScreen() {
         .verticalScroll(rememberScrollState())) {
         ProfileRow()
         Spacer(modifier = Modifier.height(16.dp))
+        MatchScoreCard()
         MatchScreen()
         NewsSection() // Add the news section
         // Add other content for the Home Screen below
@@ -52,7 +57,7 @@ fun ProfileRow() {
             .fillMaxWidth() // Take up 90% of the screen width
             .padding(16.dp)
             .clip(RoundedCornerShape(16.dp)) // Apply rounded corners
-            .border(2.dp, Color.Blue, RoundedCornerShape(16.dp)) // Add border with rounded corners
+            .border(2.dp, Color.DarkGray, RoundedCornerShape(16.dp)) // Add border with rounded corners
             .padding(16.dp)
             .width(screenWidth * 0.9f),
         verticalAlignment = Alignment.CenterVertically,
@@ -81,6 +86,15 @@ fun ProfileRow() {
 }
 
 @Composable
+fun LiveMatchScreen() {
+    Column(modifier = Modifier.fillMaxSize().background(Color.White)) {
+
+        Spacer(modifier = Modifier.weight(1f))
+        MatchScoreCard()
+    }
+}
+
+@Composable
 fun MatchScreen() {
     Column(modifier = Modifier.fillMaxSize().background(Color.White)) {
         MatchCard()
@@ -99,6 +113,126 @@ fun TimeBadge(time: String) {
     ) {
         Text(text = time, color = Color.White)
     }
+}
+
+@Composable
+fun MatchScoreCard() {
+    val backgroundColor = Color.Black
+    val textColor = Color.White
+    val accentColor = Color.Gray
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        colors = CardDefaults.cardColors(containerColor = backgroundColor),
+        elevation = CardDefaults.cardElevation(8.dp),
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // Aggregate Score
+            Text(
+                text = "agg 0 : 0",
+                color = accentColor,
+                fontSize = 16.sp
+            )
+
+            // Main row with logos and score
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Inter Logo
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    TeamLogo(
+                        resourceId = R.drawable.dtslogo,
+                        teamName = "DTS"
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "DTS",
+                        color = textColor,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+                // Score
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "4",
+                            color = textColor,
+                            fontSize = 56.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = " : ",
+                            color = textColor,
+                            fontSize = 56.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = "3",
+                            color = textColor,
+                            fontSize = 56.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+
+                    // Full-Time
+                    Text(
+                        text = "Full-Time",
+                        color = accentColor,
+                        fontSize = 18.sp,
+                        textAlign = TextAlign.Center
+                    )
+                }
+
+                // Barcelona Logo
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    TeamLogo(
+                        resourceId = R.drawable.saintslogo,
+                        teamName = "Saints"
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Saints",
+                        color = textColor,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun TeamLogo(resourceId: Int, teamName: String) {
+    Image(
+        painter = painterResource(id = resourceId),
+        contentDescription = "$teamName logo",
+        modifier = Modifier
+            .size(80.dp)
+            .clip(CircleShape)
+    )
 }
 
 @Composable

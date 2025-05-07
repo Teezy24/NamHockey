@@ -103,7 +103,7 @@ fun TeamsListView(
             }
 
             Button(
-                onClick =  onAddPlayerClicked,
+                onClick = onAddPlayerClicked,
                 modifier = Modifier.weight(1f)
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -369,7 +369,6 @@ fun SquadScreen() {
     var showAddTeamForm by remember { mutableStateOf(false) }
     var showAddPlayerForm by remember { mutableStateOf(false) }
 
-
     // Mock data
     val teams = remember {
         listOf(
@@ -384,13 +383,18 @@ fun SquadScreen() {
     Box(modifier = Modifier.fillMaxSize()) {
         when {
             showAddTeamForm -> {
-                TeamRegistrationForm(onSubmit = { showAddTeamForm = false })
+                TeamRegistrationForm(
+                    onSubmit = { showAddTeamForm = false },
+                    onBackClicked = { showAddTeamForm = false }
+                )
             }
             showAddPlayerForm -> {
-                PlayerRegistrationForm(onSubmit = { showAddPlayerForm = false })
+                PlayerRegistrationForm(
+                    onSubmit = { showAddPlayerForm = false },
+                    onBackClicked = { showAddPlayerForm = false }
+                )
             }
             selectedTeam == null -> {
-
                 TeamsListView(
                     teams = teams,
                     searchQuery = searchQuery,
@@ -411,7 +415,7 @@ fun SquadScreen() {
 }
 
 @Composable
-fun TeamRegistrationForm(onSubmit: () -> Unit) {
+fun TeamRegistrationForm(onSubmit: () -> Unit, onBackClicked: () -> Unit) {
     var clubName by remember { mutableStateOf("") }
     var contactPerson by remember { mutableStateOf("") }
     var contactNumber by remember { mutableStateOf("") }
@@ -439,6 +443,24 @@ fun TeamRegistrationForm(onSubmit: () -> Unit) {
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
+        // Back arrow
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(onClick = onBackClicked) {
+                Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "Team Registration",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+
         Text("Complete the form below to enter your team for a league.", fontWeight = FontWeight.Bold, fontSize = 18.sp)
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -464,48 +486,45 @@ fun TeamRegistrationForm(onSubmit: () -> Unit) {
         Text("Select Leagues to Participate In *", fontWeight = FontWeight.Bold)
 
         val leagueOptions = listOf(
-            "Indoor Men Premier", "Indoor Women Premier", "Indoor Men Reserve", "Indoor Women Reserve",
-            "Indoor Men First", "Indoor Women First", "Indoor Men U/16", "Indoor Women U/16",
-            "Outdoor Men Premier", "Outdoor Women Premier", "Outdoor Men Reserve", "Outdoor Women Reserve",
-            "Outdoor Men First", "Outdoor Women First", "Outdoor Men U/16", "Outdoor Women U/16"
+            "League 1",
+            "League 2",
+            "League 3",
+            "League 4"
         )
 
         leagueOptions.forEach { league ->
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Checkbox(
-                    checked = league in selectedLeagues,
+                    checked = selectedLeagues.contains(league),
                     onCheckedChange = {
                         if (it) selectedLeagues.add(league) else selectedLeagues.remove(league)
                     }
                 )
-                Text(text = league)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(league)
             }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            "Disclaimer *",
-            fontWeight = FontWeight.Bold,
-            fontSize = 16.sp
-        )
-        Text(
-            "I will ensure that any/all participants from my club have updated and paid registrations with the NHU. I understand that no member that is not up to date with either their registration nor their payment may participate in any NHU event.\n\n" +
-                    "My application to the tournament will only be final once I have sent a team roster for each one of the teams the club entered to the official correspondence (secretary@namibiahockey.org) and received a response.\n\n" +
-                    "I understand that my club will be held liable to know and act according to the statutes and tournament rules at all times whilst competing in any NHU tournament.\n\n" +
-                    "I Understand and will comply with the terms and conditions listed above.",
-            fontSize = 14.sp
-        )
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Checkbox(checked = consentChecked, onCheckedChange = { consentChecked = it })
-            Text("I agree to the above terms.")
+            Spacer(modifier = Modifier.width(8.dp))
+            Text("I agree to the Terms & Conditions")
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
+
         Button(
             onClick = {
-                if (consentChecked) {
-                    // Here you can perform form validation or submission
+                if (consentChecked && clubName.isNotBlank() && contactPerson.isNotBlank() &&
+                    contactNumber.isNotBlank() && email.isNotBlank() && confirmEmail == email
+                ) {
                     onSubmit()
                 }
             },
@@ -515,11 +534,10 @@ fun TeamRegistrationForm(onSubmit: () -> Unit) {
             Text("Submit")
         }
     }
-
 }
 
 @Composable
-fun PlayerRegistrationForm(onSubmit: () -> Unit) {
+fun PlayerRegistrationForm(onSubmit: () -> Unit, onBackClicked: () -> Unit) {
     var firstName by remember { mutableStateOf("") }
     var surname by remember { mutableStateOf("") }
     var dob by remember { mutableStateOf("") }
@@ -541,11 +559,23 @@ fun PlayerRegistrationForm(onSubmit: () -> Unit) {
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        Text(
-            text = "Player Registration",
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Bold
-        )
+        // Back arrow
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(onClick = onBackClicked) {
+                Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "Player Registration",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
 
         Spacer(Modifier.height(16.dp))
 
@@ -609,4 +639,3 @@ fun PlayerRegistrationForm(onSubmit: () -> Unit) {
         }
     }
 }
-
