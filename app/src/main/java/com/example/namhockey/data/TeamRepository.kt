@@ -6,7 +6,10 @@ data class Team(
     val contactPerson: String,
     val contactNumber: String,
     val email: String,
-    val logoResId: Int? = null
+    val logoResId: Int? = null,
+    val league: String,
+    val format: String,
+    val gender: String
 )
 
 object TeamRepository {
