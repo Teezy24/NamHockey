@@ -1,17 +1,21 @@
 package com.example.namhockey
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Home
@@ -37,6 +41,12 @@ import androidx.compose.ui.unit.sp
 import com.example.namhockey.ui.theme.NamHockeyTheme
 import androidx.compose.material.icons.filled.Settings
 import kotlinx.coroutines.launch
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import com.example.namhockey.data.UserRepository
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
+import androidx.compose.ui.tooling.preview.Preview
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,7 +109,7 @@ fun LoginScreen(context: Context, onLoginSuccess: () -> Unit) {
         contentAlignment = Alignment.Center
     ) {
         androidx.compose.foundation.layout.Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "Login", modifier = Modifier.padding(bottom = 16f))
+            Text(text = "Login", modifier = Modifier.padding(bottom = 16.dp))
             androidx.compose.material3.OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
@@ -126,7 +136,7 @@ fun LoginScreen(context: Context, onLoginSuccess: () -> Unit) {
                         }
                     }
                 },
-                modifier = Modifier.padding(top = 16f)
+                modifier = Modifier.padding(top = 16.dp)
             ) {
                 Text("Login")
             }
@@ -211,7 +221,7 @@ fun MainScreen(
                     darkMode = darkMode,
                     onDarkModeChanged = onDarkModeChanged,
                     notificationsEnabled = notificationsEnabled,
-                    onNotificationsEnabledChanged = onNotificationsEnabled,
+                    onNotificationsEnabledChanged = onNotificationsEnabledChanged,
                     onLogout = onLogout
                 )
             }
