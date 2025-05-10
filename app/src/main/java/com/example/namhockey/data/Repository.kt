@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class Repository {
-    private val _teams = MutableStateFlow<List<Team>>(emptyList())
-    val teams: Flow<List<Team>> = _teams.asStateFlow()
+    private val _teams = MutableStateFlow<List<TeamModel>>(emptyList())
+    val teams: Flow<List<TeamModel>> = _teams.asStateFlow()
 
     private val _players = MutableStateFlow<List<Player>>(emptyList())
     val players: Flow<List<Player>> = _players.asStateFlow()
@@ -30,10 +30,10 @@ class Repository {
     private fun initializeMockData() {
         // Mock Teams
         val mockTeams = listOf(
-            Team(1, "Saints", R.drawable.saintslogo, "2021 Bank Windhoek Premier League", "Indoor", "Men"),
-            Team(2, "DTS", R.drawable.dtslogo, "2021 Bank Windhoek Premier League", "Indoor", "Men"),
-            Team(3, "WOBSC", R.drawable.teamicon, "2021 Bank Windhoek Premier League", "Indoor", "Men"),
-            Team(4, "SEHC", R.drawable.teamicon, "2021 Bank Windhoek Premier League", "Indoor", "Men")
+            TeamModel(1, "Saints", R.drawable.saintslogo, "2021 Bank Windhoek Premier League", "Indoor", "Men"),
+            TeamModel(2, "DTS", R.drawable.dtslogo, "2021 Bank Windhoek Premier League", "Indoor", "Men"),
+            TeamModel(3, "WOBSC", R.drawable.teamicon, "2021 Bank Windhoek Premier League", "Indoor", "Men"),
+            TeamModel(4, "SEHC", R.drawable.teamicon, "2021 Bank Windhoek Premier League", "Indoor", "Men")
         )
         _teams.value = mockTeams
 
@@ -72,7 +72,7 @@ class Repository {
         _news.value = mockNews
     }
 
-    fun getTeamsByLeague(league: String): List<Team> {
+    fun getTeamsByLeague(league: String): List<TeamModel> {
         return _teams.value.filter { it.league == league }
     }
 

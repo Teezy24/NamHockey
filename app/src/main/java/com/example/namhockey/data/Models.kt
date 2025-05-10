@@ -1,6 +1,6 @@
 package com.example.namhockey.data
 
-data class Team(
+data class TeamModel(
     val id: Int,
     val name: String,
     val logoResId: Int,

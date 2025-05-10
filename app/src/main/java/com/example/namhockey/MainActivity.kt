@@ -65,6 +65,8 @@ import com.example.namhockey.data.NewsItem
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.size
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -160,19 +162,19 @@ fun LoginScreen(context: Context, onLoginSuccess: () -> Unit) {
 
 @Composable
 fun FavoriteTeamScreen(context: Context, onTeamSelected: (String) -> Unit) {
-    data class Team(val name: String, val logoResId: Int)
+    data class TeamUi(val name: String, val logoResId: Int)
     val allTeams = listOf(
-        Team("Windhoek Wasps", android.R.drawable.ic_menu_compass),
-        Team("Coastal Sharks", android.R.drawable.ic_menu_mylocation),
-        Team("Desert Eagles", android.R.drawable.ic_menu_myplaces),
-        Team("Northern Wolves", android.R.drawable.ic_menu_directions),
-        Team("Southern Stars", android.R.drawable.ic_menu_mapmode),
-        Team("Capital Kings", android.R.drawable.ic_menu_manage),
-        Team("River Raptors", android.R.drawable.ic_menu_gallery),
-        Team("Savannah Lions", android.R.drawable.ic_menu_camera)
+        TeamUi("Windhoek Wasps", android.R.drawable.ic_menu_compass),
+        TeamUi("Coastal Sharks", android.R.drawable.ic_menu_mylocation),
+        TeamUi("Desert Eagles", android.R.drawable.ic_menu_myplaces),
+        TeamUi("Northern Wolves", android.R.drawable.ic_menu_directions),
+        TeamUi("Southern Stars", android.R.drawable.ic_menu_mapmode),
+        TeamUi("Capital Kings", android.R.drawable.ic_menu_manage),
+        TeamUi("River Raptors", android.R.drawable.ic_menu_gallery),
+        TeamUi("Savannah Lions", android.R.drawable.ic_menu_camera)
     )
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
-    var selectedTeam by remember { mutableStateOf<Team?>(null) }
+    var selectedTeam by remember { mutableStateOf<TeamUi?>(null) }
     val teams = allTeams.filter { it.name.contains(searchQuery.text, ignoreCase = true) }
 
     Surface(
@@ -209,7 +211,7 @@ fun FavoriteTeamScreen(context: Context, onTeamSelected: (String) -> Unit) {
                     Surface(
                         shape = RoundedCornerShape(16.dp),
                         tonalElevation = if (isSelected) 8.dp else 2.dp,
-                        border = if (isSelected) androidx.compose.ui.Modifier.background(MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)) else Modifier,
+                        border = if (isSelected) BorderStroke(2.dp, MaterialTheme.colorScheme.primary) else null,
                         color = if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -283,7 +285,7 @@ fun MainScreen(
             when (selectedTab) {
                 0 -> HomeScreen(favoriteTeam = favoriteTeam)
                 1 -> StandingsScreen()
-                2 -> SquadScreen()
+                2 -> SquadScreenSimple()
                 3 -> EventScreen()
                 4 -> NewsScreen()
                 5 -> SettingsScreen(
@@ -347,7 +349,7 @@ fun HomeScreen(favoriteTeam: String?) {
 }
 
 @Composable
-fun SquadScreen() {
+fun SquadScreenSimple() {
     var showAddTeam by remember { mutableStateOf(false) }
     var showAddPlayer by remember { mutableStateOf(false) }
     val teams = remember { mutableStateListOf<Team>() }
@@ -404,13 +406,28 @@ fun AddTeamDialog(onDismiss: () -> Unit) {
     var contactPerson by remember { mutableStateOf("") }
     var contactNumber by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
+    var league by remember { mutableStateOf("") }
+    var format by remember { mutableStateOf("") }
+    var gender by remember { mutableStateOf("") }
     AlertDialog(
         onDismissRequest = onDismiss,
         confirmButton = {
             Button(onClick = {
-                TeamRepository.addTeam(Team(0, name, contactPerson, contactNumber, email))
+                TeamRepository.addTeam(
+                    Team(
+                        id = 0,
+                        name = name,
+                        contactPerson = contactPerson,
+                        contactNumber = contactNumber,
+                        email = email,
+                        logoResId = null,
+                        league = league,
+                        format = format,
+                        gender = gender
+                    )
+                )
                 onDismiss()
-            }, enabled = name.isNotBlank()) { Text("Add") }
+            }, enabled = name.isNotBlank() && league.isNotBlank() && format.isNotBlank() && gender.isNotBlank()) { Text("Add") }
         },
         dismissButton = { Button(onClick = onDismiss) { Text("Cancel") } },
         title = { Text("Add Team") },
@@ -420,6 +437,9 @@ fun AddTeamDialog(onDismiss: () -> Unit) {
                 OutlinedTextField(value = contactPerson, onValueChange = { contactPerson = it }, label = { Text("Contact Person") })
                 OutlinedTextField(value = contactNumber, onValueChange = { contactNumber = it }, label = { Text("Contact Number") })
                 OutlinedTextField(value = email, onValueChange = { email = it }, label = { Text("Email") })
+                OutlinedTextField(value = league, onValueChange = { league = it }, label = { Text("League") })
+                OutlinedTextField(value = format, onValueChange = { format = it }, label = { Text("Format (e.g. Indoor/Outdoor)") })
+                OutlinedTextField(value = gender, onValueChange = { gender = it }, label = { Text("Gender (e.g. Men/Women)") })
             }
         }
     )
