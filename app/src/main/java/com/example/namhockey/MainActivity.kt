@@ -41,17 +41,23 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.ui.unit.dp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,7 +116,7 @@ fun LoginScreen(context: Context, onLoginSuccess: () -> Unit) {
         contentAlignment = Alignment.Center
     ) {
         androidx.compose.foundation.layout.Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "Login", modifier = Modifier.padding(bottom = 16f))
+            Text(text = "Login", modifier = Modifier.padding(bottom = 16.dp))
             androidx.compose.material3.OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
@@ -137,7 +143,7 @@ fun LoginScreen(context: Context, onLoginSuccess: () -> Unit) {
                         }
                     }
                 },
-                modifier = Modifier.padding(top = 16f)
+                modifier = Modifier.padding(top = 16.dp)
             ) {
                 Text("Login")
             }
@@ -196,7 +202,7 @@ fun FavoriteTeamScreen(context: Context, onTeamSelected: (String) -> Unit) {
                     Surface(
                         shape = RoundedCornerShape(16.dp),
                         tonalElevation = if (isSelected) 8.dp else 2.dp,
-                        border = if (isSelected) androidx.compose.ui.Modifier.background(MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)) else Modifier,
+                        border = if (isSelected) BorderStroke(2.dp, MaterialTheme.colorScheme.primary) else null,
                         color = if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -275,7 +281,7 @@ fun MainScreen(
                     darkMode = darkMode,
                     onDarkModeChanged = onDarkModeChanged,
                     notificationsEnabled = notificationsEnabled,
-                    onNotificationsEnabledChanged = onNotificationsEnabled,
+                    onNotificationsEnabledChanged = onNotificationsEnabledChanged,
                     onLogout = onLogout
                 )
             }
@@ -341,7 +347,6 @@ fun NamHockey() {
             notificationsEnabled = true,
             onNotificationsEnabledChanged = {}
         )
-        // You may want to remove StandingsScreen() and SquadScreen() here,
-        // as MainScreen already handles which screen to show.
+
     }
 }
