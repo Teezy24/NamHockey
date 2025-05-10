@@ -121,8 +121,13 @@ fun BottomNavigationBar(
 @Composable
 fun NamHockey() {
     NamHockeyTheme {
-        MainScreen()
-        StandingsScreen()
-        SquadScreen()
+        MainScreen(
+            darkMode = false,
+            onDarkModeChanged = {},
+            notificationsEnabled = true,
+            onNotificationsEnabledChanged = {}
+        )
+        // You may want to remove StandingsScreen() and SquadScreen() here,
+        // as MainScreen already handles which screen to show.
     }
 }

@@ -44,8 +44,11 @@ import kotlinx.coroutines.flow.collectLatest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
+import androidx.compose.runtime.getValue
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.compose.runtime.remember
+
 
 @Composable
 fun HomeScreen() {
