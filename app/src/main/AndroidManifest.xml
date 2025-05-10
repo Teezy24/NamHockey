@@ -15,7 +15,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="main_activity_label"
+            android:label="Nam Hockey"
             android:theme="@style/Theme.NamHockey">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

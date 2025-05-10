@@ -36,10 +36,10 @@ class Repository {
 
         // Mock Players
         val mockPlayers = listOf(
-            Player(1, 1, "John Doe", "Forward", "Player", 5, 4.5f),
-            Player(2, 1, "Jane Smith", "Defense", "Player", 2, 4.2f),
-            Player(3, 2, "Mike Johnson", "Forward", "Player", 7, 4.8f),
-            Player(4, 2, "Sarah Williams", "Goalkeeper", "Player", 0, 4.6f)
+            Player(1, 1, "Dr Naftali Indongo", "Forward", "Player", 5, 4.5f),
+            Player(2, 1, "Dr Simon Muchininenyika", "Defense", "Player", 2, 4.2f),
+            Player(3, 2, "Dr Gabirel Nhinda", "Forward", "Player", 7, 4.8f),
+            Player(4, 2, "Ms Rosetha Kays", "Goalkeeper", "Player", 0, 4.6f)
         )
         _players.value = mockPlayers
 

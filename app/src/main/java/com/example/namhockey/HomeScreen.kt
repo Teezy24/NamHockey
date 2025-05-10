@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
@@ -33,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.tooling.preview.Preview
 
 
 @Composable
@@ -44,7 +46,7 @@ fun HomeScreen() {
         MatchScoreCard()
         MatchScreen()
         NewsSection() // Add the news section
-        // Add other content for the Home Screen below
+
     }
 }
 
@@ -56,8 +58,8 @@ fun ProfileRow() {
         modifier = Modifier
             .fillMaxWidth() // Take up 90% of the screen width
             .padding(16.dp)
-            .clip(RoundedCornerShape(16.dp)) // Apply rounded corners
-            .border(2.dp, Color.DarkGray, RoundedCornerShape(16.dp)) // Add border with rounded corners
+            .clip(RoundedCornerShape(16.dp)) // rounded corners
+            .border(2.dp, Color.DarkGray, RoundedCornerShape(16.dp)) // border with rounded corners
             .padding(16.dp)
             .width(screenWidth * 0.9f),
         verticalAlignment = Alignment.CenterVertically,
@@ -65,7 +67,7 @@ fun ProfileRow() {
     ) {
         // Team Logo
         Image(
-            painter = painterResource(id = R.drawable.anchor), // Replace with your team logo resource
+            painter = painterResource(id = R.drawable.anchor),
             contentDescription = "Team Logo",
             modifier = Modifier
                 .size(40.dp)
@@ -283,18 +285,34 @@ fun MatchStat(label: String, percent: String, value: String, highlight: Boolean 
 
 @Composable
 fun NewsSection() {
-    Column(modifier = Modifier.padding(16.dp)) {
+    Column(
+        modifier = Modifier
+            .padding(16.dp)
+    ) {
         Text(
             text = "Latest News",
-            fontWeight = FontWeight.Bold,
+            fontSize = 22.sp,
+            fontWeight = FontWeight.ExtraBold,
             color = Color.Black,
-            modifier = Modifier.padding(bottom = 8.dp))
+            modifier = Modifier.padding(bottom = 12.dp)
+        )
 
-        NewsCard(title = "Team A wins the championship", description = "Team A defeated Team B in a thrilling final.")
-        Spacer(modifier = Modifier.height(8.dp))
-        NewsCard(title = "Player X breaks record", description = "Player X sets a new record for most goals in a season.")
-        Spacer(modifier = Modifier.height(8.dp))
-        NewsCard(title = "Upcoming match preview", description = "A detailed preview of the upcoming match between Team C and Team D.")
+        NewsCard(
+            title = "🏆 Team A Wins the Championship",
+            description = "Team A defeated Team B in a thrilling final match to secure the title."
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+
+        NewsCard(
+            title = "🔥 Player X Breaks the Record",
+            description = "Player X sets a new record for most goals scored in a single season."
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+
+        NewsCard(
+            title = "📅 Upcoming Match Preview",
+            description = "A detailed preview of the highly anticipated match between Team C and Team D."
+        )
     }
 }
 
@@ -303,15 +321,36 @@ fun NewsCard(title: String, description: String) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
-        shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(4.dp)
+            .shadow(6.dp, RoundedCornerShape(16.dp)),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F5F5)),
+        elevation = CardDefaults.cardElevation(6.dp)
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = title, fontWeight = FontWeight.Bold, color = Color.Black)
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = description, color = Color.Gray)
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+        ) {
+            Text(
+                text = title,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF212121),
+                lineHeight = 22.sp
+            )
+            Spacer(modifier = Modifier.height(6.dp))
+            Text(
+                text = description,
+                fontSize = 14.sp,
+                color = Color(0xFF616161),
+                lineHeight = 20.sp
+            )
         }
     }
 }
 
+
+@Preview(showBackground = true, device = "id:medium_phone")
+@Composable
+fun HomeScreenPreview() {
+    HomeScreen()
+}

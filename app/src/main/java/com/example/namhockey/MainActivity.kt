@@ -33,8 +33,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             NamHockeyTheme {
+
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen(modifier = Modifier.padding(innerPadding)) // Added missing modifier parameter
+                    MainScreen(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
@@ -92,7 +93,7 @@ fun BottomNavigationBar(
                         else -> Icon(Icons.Default.Home, contentDescription = null)
                     }
                 }
-            ) // Corrected missing closing parenthesis
+            )
         }
     }
 }
