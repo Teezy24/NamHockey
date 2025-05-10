@@ -15,7 +15,8 @@ fun SettingsScreen(
     darkMode: Boolean,
     onDarkModeChanged: (Boolean) -> Unit,
     notificationsEnabled: Boolean,
-    onNotificationsEnabledChanged: (Boolean) -> Unit
+    onNotificationsEnabledChanged: (Boolean) -> Unit,
+    onLogout: (() -> Unit)? = null
 ) {
     var language by remember { mutableStateOf("English") }
     var dataSyncEnabled by remember { mutableStateOf(true) }
@@ -129,6 +130,19 @@ fun SettingsScreen(
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier.padding(top = 4.dp)
         )
+
+        // Logout button
+        if (onLogout != null) {
+            Spacer(modifier = Modifier.weight(1f))
+            Button(
+                onClick = { onLogout() },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 24.dp)
+            ) {
+                Text("Logout")
+            }
+        }
     }
 }
 
