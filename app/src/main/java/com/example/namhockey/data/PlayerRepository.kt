@@ -3,7 +3,7 @@ package com.example.namhockey.data
 data class Player(
     val id: Int,
     val name: String,
-    val teamId: Int?,
+    val teamId: String,
     val position: String,
     val dob: String,
     val email: String,
@@ -23,5 +23,5 @@ object PlayerRepository {
     }
 
     fun getPlayers(): List<Player> = players
-    fun getPlayersForTeam(teamId: Int): List<Player> = players.filter { it.teamId == teamId }
+    fun getPlayersForTeam(teamId: String): List<Player> = players.filter { it.teamId == teamId }
 } 
