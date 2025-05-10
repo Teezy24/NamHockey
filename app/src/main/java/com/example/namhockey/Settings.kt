@@ -110,8 +110,22 @@ fun SettingsScreen(
 
         Divider()
 
+        // Data Sync Toggle
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("Enable Data Sync")
+            Switch(
+                checked = dataSyncEnabled,
+                onCheckedChange = { dataSyncEnabled = it }
+            )
+        }
 
-
+        Divider()
 
         // About Section
         Text(
@@ -122,11 +136,11 @@ fun SettingsScreen(
         )
 
         Text(
-            text = "NamHockey v1.0.2",
+            text = "NamHockey v1.0.0",
             style = MaterialTheme.typography.bodyMedium
         )
         Text(
-            text = "© 2025 NamHockey. All rights reserved by Us.",
+            text = "© 2024 NamHockey. All rights reserved.",
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier.padding(top = 4.dp)
         )

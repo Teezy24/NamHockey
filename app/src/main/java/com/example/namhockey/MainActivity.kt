@@ -6,21 +6,20 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.Icon
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -30,13 +29,29 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.namhockey.ui.theme.NamHockeyTheme
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Icon
 import kotlinx.coroutines.launch
+import com.example.namhockey.data.UserRepository
+import android.content.Context
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,40 +61,36 @@ class MainActivity : ComponentActivity() {
             var darkMode by remember { mutableStateOf(false) }
             var notificationsEnabled by remember { mutableStateOf(true) }
             var isLoggedIn by remember { mutableStateOf(UserRepository.isLoggedIn(this)) }
-            var favouriteTeam by remember { mutableStateOf(UserRepository.getFavouriteTeam(this)) }
+            var favoriteTeam by remember { mutableStateOf(UserRepository.getFavoriteTeam(this)) }
             NamHockeyTheme(darkTheme = darkMode) {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    when {
-                        !isLoggedIn -> {
-                            LoginScreen(
-                                context = this,
-                                onLoginSuccess = { isLoggedIn = true }
-                            )
-                        }
-                        favouriteTeam == null -> {
-                            FavouriteTeamPickerScreen(
-                                onTeamSelected = { team ->
-                                    UserRepository.setFavouriteTeam(this, team)
-                                    favouriteTeam = team
-                                }
-                            )
-                        }
-                        else -> {
-                            MainScreen(
-                                modifier = Modifier.padding(innerPadding),
-                                darkMode = darkMode,
-                                onDarkModeChanged = { darkMode = it },
-                                notificationsEnabled = notificationsEnabled,
-                                onNotificationsEnabledChanged = { notificationsEnabled = it },
-                                onLogout = {
-                                    UserRepository.logout(this)
-                                    isLoggedIn = false
-                                    UserRepository.clearFavouriteTeam(this)
-                                    favouriteTeam = null
-                                },
-                                favouriteTeam = favouriteTeam
-                            )
-                        }
+                    if (!isLoggedIn) {
+                        LoginScreen(
+                            context = this,
+                            onLoginSuccess = { isLoggedIn = true }
+                        )
+                    } else if (favoriteTeam == null) {
+                        FavoriteTeamScreen(
+                            context = this,
+                            onTeamSelected = { team ->
+                                UserRepository.setFavoriteTeam(this, team)
+                                favoriteTeam = team
+                            }
+                        )
+                    } else {
+                        MainScreen(
+                            modifier = Modifier.padding(innerPadding),
+                            darkMode = darkMode,
+                            onDarkModeChanged = { darkMode = it },
+                            notificationsEnabled = notificationsEnabled,
+                            onNotificationsEnabledChanged = { notificationsEnabled = it },
+                            onLogout = {
+                                UserRepository.logout(this)
+                                isLoggedIn = false
+                                favoriteTeam = null
+                            },
+                            favoriteTeam = favoriteTeam
+                        )
                     }
                 }
             }
@@ -135,41 +146,94 @@ fun LoginScreen(context: Context, onLoginSuccess: () -> Unit) {
 }
 
 @Composable
-fun FavouriteTeamPickerScreen(onTeamSelected: (String) -> Unit) {
-    val teams = listOf(
-        "Namibia Eagles" to R.drawable.teamicon,
-        "Windhoek Warriors" to R.drawable.saintslogo,
-        "Coastal Sharks" to R.drawable.dtslogo
+fun FavoriteTeamScreen(context: Context, onTeamSelected: (String) -> Unit) {
+    data class Team(val name: String, val logoResId: Int)
+    val allTeams = listOf(
+        Team("Windhoek Wasps", android.R.drawable.ic_menu_compass),
+        Team("Coastal Sharks", android.R.drawable.ic_menu_mylocation),
+        Team("Desert Eagles", android.R.drawable.ic_menu_myplaces),
+        Team("Northern Wolves", android.R.drawable.ic_menu_directions),
+        Team("Southern Stars", android.R.drawable.ic_menu_mapmode),
+        Team("Capital Kings", android.R.drawable.ic_menu_manage),
+        Team("River Raptors", android.R.drawable.ic_menu_gallery),
+        Team("Savannah Lions", android.R.drawable.ic_menu_camera)
     )
-    var selected by remember { mutableStateOf<String?>(null) }
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text("Choose Your Favourite Team", style = MaterialTheme.typography.headlineMedium)
-            Spacer(Modifier.height(24.dp))
-            teams.forEach { (name, logoRes) ->
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                        .padding(8.dp)
-                        .clickable {
-                            selected = name
-                            onTeamSelected(name)
+    var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
+    var selectedTeam by remember { mutableStateOf<Team?>(null) }
+    val teams = allTeams.filter { it.name.contains(searchQuery.text, ignoreCase = true) }
+
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top,
+            modifier = Modifier.padding(24.dp)
+        ) {
+            Text(
+                "Choose Your Favourite Team",
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+            OutlinedTextField(
+                value = searchQuery,
+                onValueChange = { searchQuery = it },
+                label = { Text("Search teams...") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
+            )
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier.weight(1f)
+            ) {
+                items(teams) { team ->
+                    val isSelected = selectedTeam == team
+                    Surface(
+                        shape = RoundedCornerShape(16.dp),
+                        tonalElevation = if (isSelected) 8.dp else 2.dp,
+                        border = if (isSelected) androidx.compose.ui.Modifier.background(MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)) else Modifier,
+                        color = if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { selectedTeam = team }
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center,
+                            modifier = Modifier.padding(16.dp)
+                        ) {
+                            Image(
+                                painter = painterResource(id = team.logoResId),
+                                contentDescription = team.name,
+                                modifier = Modifier
+                                    .size(56.dp)
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                team.name,
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                                color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
+                                textAlign = TextAlign.Center,
+                                fontSize = 16.sp
+                            )
                         }
-                        .background(
-                            if (selected == name) MaterialTheme.colorScheme.primary.copy(alpha = 0.2f) else MaterialTheme.colorScheme.background,
-                            shape = MaterialTheme.shapes.medium
-                        )
-                        .padding(12.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(id = logoRes),
-                        contentDescription = "$name logo",
-                        modifier = Modifier.size(40.dp)
-                    )
-                    Spacer(Modifier.width(16.dp))
-                    Text(name, fontSize = 20.sp)
+                    }
                 }
+            }
+            Spacer(modifier = Modifier.height(24.dp))
+            Button(
+                onClick = { selectedTeam?.let { onTeamSelected(it.name) } },
+                enabled = selectedTeam != null,
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.fillMaxWidth(0.7f)
+            ) {
+                Text("Confirm", style = MaterialTheme.typography.titleMedium)
             }
         }
     }
@@ -183,7 +247,7 @@ fun MainScreen(
     notificationsEnabled: Boolean,
     onNotificationsEnabledChanged: (Boolean) -> Unit,
     onLogout: (() -> Unit)? = null,
-    favouriteTeam: String? = null
+    favoriteTeam: String? = null
 ) {
     val tabs = listOf("Home", "Standings", "Squad", "Settings")
     var selectedTab by remember { mutableIntStateOf(0) }
@@ -204,7 +268,7 @@ fun MainScreen(
             contentAlignment = Alignment.Center
         ) {
             when (selectedTab) {
-                0 -> HomeScreen(favouriteTeam)
+                0 -> HomeScreen(favoriteTeam = favoriteTeam)
                 1 -> StandingsScreen()
                 2 -> SquadScreen()
                 3 -> SettingsScreen(
@@ -246,23 +310,23 @@ fun BottomNavigationBar(
 }
 
 @Composable
-fun HomeScreen(favouriteTeam: String?) {
-    val teamLogos = mapOf(
-        "Namibia Eagles" to R.drawable.teamicon,
-        "Windhoek Warriors" to R.drawable.saintslogo,
-        "Coastal Sharks" to R.drawable.dtslogo
-    )
-    Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center, modifier = Modifier.fillMaxSize()) {
-        if (favouriteTeam != null) {
-            Icon(
-                painter = painterResource(id = teamLogos[favouriteTeam] ?: R.drawable.ic_launcher_foreground),
-                contentDescription = "$favouriteTeam logo",
-                modifier = Modifier.size(100.dp)
-            )
-            Spacer(Modifier.height(16.dp))
-            Text("Welcome, $favouriteTeam fan!", style = MaterialTheme.typography.headlineMedium)
-        } else {
-            Text("Welcome to NamHockey!", style = MaterialTheme.typography.headlineMedium)
+fun HomeScreen(favoriteTeam: String?) {
+    Column(modifier = Modifier.fillMaxSize()) {
+        if (favoriteTeam != null) {
+            Surface(
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = "Favourite Team: $favoriteTeam",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        }
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Text("Welcome to NamHockey!")
         }
     }
 }
