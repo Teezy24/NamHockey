@@ -1,5 +1,7 @@
 package com.example.namhockey.data
 
+import com.example.namhockey.R
+
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -85,4 +87,4 @@ class Repository {
             TeamStanding(4, "SEHC", 6, 3, 3, 0, 9, 2, 25, 46, -21, 11)
         )
     }
-} 
+}
