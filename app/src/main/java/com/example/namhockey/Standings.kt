@@ -21,6 +21,10 @@ fun StandingsScreen() {
     var selectedFormat by remember { mutableStateOf("Indoor") }
     var selectedGender by remember { mutableStateOf("Men") }
     var selectedLeague by remember { mutableStateOf("2021 Bank Windhoek Premier League") }
+    
+    var formatExpanded by remember { mutableStateOf(false) }
+    var genderExpanded by remember { mutableStateOf(false) }
+    var leagueExpanded by remember { mutableStateOf(false) }
 
     // Generate leagues based on format and gender
     val leagues = when {
@@ -93,28 +97,30 @@ fun StandingsScreen() {
                     .padding(end = 8.dp)
             ) {
                 ExposedDropdownMenuBox(
-                    expanded = false,
-                    onExpandedChange = { },
+                    expanded = formatExpanded,
+                    onExpandedChange = { formatExpanded = it }
                 ) {
                     OutlinedTextField(
                         value = selectedFormat,
                         onValueChange = {},
                         readOnly = true,
-                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = false) },
+                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = formatExpanded) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .menuAnchor()
                     )
 
-                    DropdownMenu(
-                        expanded = false,
-                        onDismissRequest = { },
-                        modifier = Modifier.exposedDropdownSize()
+                    ExposedDropdownMenu(
+                        expanded = formatExpanded,
+                        onDismissRequest = { formatExpanded = false }
                     ) {
                         listOf("Indoor", "Outdoor").forEach { format ->
                             DropdownMenuItem(
                                 text = { Text(format) },
-                                onClick = { selectedFormat = format }
+                                onClick = {
+                                    selectedFormat = format
+                                    formatExpanded = false
+                                }
                             )
                         }
                     }
@@ -128,28 +134,30 @@ fun StandingsScreen() {
                     .padding(start = 8.dp)
             ) {
                 ExposedDropdownMenuBox(
-                    expanded = false,
-                    onExpandedChange = { },
+                    expanded = genderExpanded,
+                    onExpandedChange = { genderExpanded = it }
                 ) {
                     OutlinedTextField(
                         value = selectedGender,
                         onValueChange = {},
                         readOnly = true,
-                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = false) },
+                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = genderExpanded) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .menuAnchor()
                     )
 
-                    DropdownMenu(
-                        expanded = false,
-                        onDismissRequest = { },
-                        modifier = Modifier.exposedDropdownSize()
+                    ExposedDropdownMenu(
+                        expanded = genderExpanded,
+                        onDismissRequest = { genderExpanded = false }
                     ) {
                         listOf("Men", "Women").forEach { gender ->
                             DropdownMenuItem(
                                 text = { Text(gender) },
-                                onClick = { selectedGender = gender }
+                                onClick = {
+                                    selectedGender = gender
+                                    genderExpanded = false
+                                }
                             )
                         }
                     }
@@ -164,28 +172,30 @@ fun StandingsScreen() {
                 .padding(horizontal = 16.dp)
         ) {
             ExposedDropdownMenuBox(
-                expanded = false,
-                onExpandedChange = { },
+                expanded = leagueExpanded,
+                onExpandedChange = { leagueExpanded = it }
             ) {
                 OutlinedTextField(
                     value = selectedLeague,
                     onValueChange = {},
                     readOnly = true,
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = false) },
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = leagueExpanded) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .menuAnchor()
                 )
 
-                DropdownMenu(
-                    expanded = false,
-                    onDismissRequest = { },
-                    modifier = Modifier.exposedDropdownSize()
+                ExposedDropdownMenu(
+                    expanded = leagueExpanded,
+                    onDismissRequest = { leagueExpanded = false }
                 ) {
                     leagues.forEach { league ->
                         DropdownMenuItem(
                             text = { Text(league) },
-                            onClick = { selectedLeague = league }
+                            onClick = {
+                                selectedLeague = league
+                                leagueExpanded = false
+                            }
                         )
                     }
                 }

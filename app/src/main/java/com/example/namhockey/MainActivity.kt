@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen(modifier: Modifier = Modifier) { // Added modifier parameter with default value
+fun MainScreen(modifier: Modifier = Modifier) {
     val tabs = listOf("Home", "Standings", "Squad", "Settings")
     var selectedTab by remember { mutableIntStateOf(0) }
     Scaffold(
@@ -53,9 +53,8 @@ fun MainScreen(modifier: Modifier = Modifier) { // Added modifier parameter with
                 onTabSelected = { selectedTab = it }
             )
         },
-        modifier = modifier // Pass the modifier here
+        modifier = modifier
     ) { innerPadding ->
-        // Main content goes here
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -66,7 +65,7 @@ fun MainScreen(modifier: Modifier = Modifier) { // Added modifier parameter with
                 0 -> HomeScreen()
                 1 -> StandingsScreen()
                 2 -> SquadScreen()
-                3 -> Text("Settings Screen")
+                3 -> SettingsScreen()
             }
         }
     }
