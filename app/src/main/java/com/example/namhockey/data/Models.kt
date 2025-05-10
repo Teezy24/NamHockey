@@ -57,4 +57,11 @@ data class TeamStanding(
     val goalsAgainst: Int,
     val goalDifference: Int,
     val totalPoints: Int
+)
+
+data class News(
+    val id: Int,
+    val title: String,
+    val content: String,
+    val timestamp: Long
 ) 

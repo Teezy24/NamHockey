@@ -19,6 +19,9 @@ class Repository {
     private val _leagues = MutableStateFlow<List<League>>(emptyList())
     val leagues: Flow<List<League>> = _leagues.asStateFlow()
 
+    private val _news = MutableStateFlow<List<News>>(emptyList())
+    val news: Flow<List<News>> = _news.asStateFlow()
+
     init {
         // Initialize with mock data
         initializeMockData()
@@ -59,6 +62,14 @@ class Repository {
             League(4, "2022 Bank Windhoek Women's League", "Indoor", "Women", "2022")
         )
         _leagues.value = mockLeagues
+
+        // Mock News
+        val mockNews = listOf(
+            News(1, "Saints Win Premier League!", "Saints have won the 2021 Bank Windhoek Premier League after a thrilling final.", System.currentTimeMillis()),
+            News(2, "Upcoming Match: DTS vs WOBSC", "Don't miss the upcoming match between DTS and WOBSC this weekend!", System.currentTimeMillis()),
+            News(3, "Player of the Month: Dr Naftali Indongo", "Congratulations to Dr Naftali Indongo for being named Player of the Month!", System.currentTimeMillis())
+        )
+        _news.value = mockNews
     }
 
     fun getTeamsByLeague(league: String): List<Team> {

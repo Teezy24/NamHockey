@@ -11,9 +11,12 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen() {
-    var darkMode by remember { mutableStateOf(false) }
-    var notificationsEnabled by remember { mutableStateOf(true) }
+fun SettingsScreen(
+    darkMode: Boolean,
+    onDarkModeChanged: (Boolean) -> Unit,
+    notificationsEnabled: Boolean,
+    onNotificationsEnabledChanged: (Boolean) -> Unit
+) {
     var language by remember { mutableStateOf("English") }
     var dataSyncEnabled by remember { mutableStateOf(true) }
 
@@ -40,7 +43,7 @@ fun SettingsScreen() {
             Text("Dark Mode")
             Switch(
                 checked = darkMode,
-                onCheckedChange = { darkMode = it }
+                onCheckedChange = { onDarkModeChanged(it) }
             )
         }
 
@@ -57,7 +60,7 @@ fun SettingsScreen() {
             Text("Enable Notifications")
             Switch(
                 checked = notificationsEnabled,
-                onCheckedChange = { notificationsEnabled = it }
+                onCheckedChange = { onNotificationsEnabledChanged(it) }
             )
         }
 
