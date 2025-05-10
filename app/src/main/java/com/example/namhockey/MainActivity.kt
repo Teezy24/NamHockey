@@ -43,16 +43,20 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.namhockey.data.TeamRepository
 import com.example.namhockey.data.PlayerRepository
@@ -65,6 +69,15 @@ import com.example.namhockey.data.NewsItem
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.material3.Divider
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+
+
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.size
 
@@ -125,7 +138,7 @@ fun LoginScreen(context: Context, onLoginSuccess: () -> Unit) {
         contentAlignment = Alignment.Center
     ) {
         androidx.compose.foundation.layout.Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "Login", modifier = Modifier.padding(bottom = 16f))
+            Text(text = "Login", modifier = Modifier.padding(bottom = 16.dp))
             androidx.compose.material3.OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
@@ -152,7 +165,7 @@ fun LoginScreen(context: Context, onLoginSuccess: () -> Unit) {
                         }
                     }
                 },
-                modifier = Modifier.padding(top = 16f)
+                modifier = Modifier.padding(top = 16.dp)
             ) {
                 Text("Login")
             }
@@ -292,7 +305,7 @@ fun MainScreen(
                     darkMode = darkMode,
                     onDarkModeChanged = onDarkModeChanged,
                     notificationsEnabled = notificationsEnabled,
-                    onNotificationsEnabledChanged = onNotificationsEnabled,
+                    onNotificationsEnabledChanged = onNotificationsEnabledChanged,
                     onLogout = onLogout
                 )
             }
