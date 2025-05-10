@@ -26,16 +26,24 @@ import com.example.namhockey.ui.theme.NamHockeyTheme
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            NamHockeyTheme {
-
+            var darkMode by remember { mutableStateOf(false) }
+            var notificationsEnabled by remember { mutableStateOf(true) }
+            NamHockeyTheme(darkTheme = darkMode) {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen(modifier = Modifier.padding(innerPadding))
+                    MainScreen(
+                        modifier = Modifier.padding(innerPadding),
+                        darkMode = darkMode,
+                        onDarkModeChanged = { darkMode = it },
+                        notificationsEnabled = notificationsEnabled,
+                        onNotificationsEnabledChanged = { notificationsEnabled = it }
+                    )
                 }
             }
         }
@@ -43,7 +51,13 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen(modifier: Modifier = Modifier) {
+fun MainScreen(
+    modifier: Modifier = Modifier,
+    darkMode: Boolean,
+    onDarkModeChanged: (Boolean) -> Unit,
+    notificationsEnabled: Boolean,
+    onNotificationsEnabledChanged: (Boolean) -> Unit
+) {
     val tabs = listOf("Home", "Standings", "Squad", "Settings")
     var selectedTab by remember { mutableIntStateOf(0) }
     Scaffold(
@@ -66,7 +80,12 @@ fun MainScreen(modifier: Modifier = Modifier) {
                 0 -> HomeScreen()
                 1 -> StandingsScreen()
                 2 -> SquadScreen()
-                3 -> SettingsScreen()
+                3 -> SettingsScreen(
+                    darkMode = darkMode,
+                    onDarkModeChanged = onDarkModeChanged,
+                    notificationsEnabled = notificationsEnabled,
+                    onNotificationsEnabledChanged = onNotificationsEnabledChanged
+                )
             }
         }
     }

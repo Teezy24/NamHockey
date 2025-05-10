@@ -29,13 +29,23 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
-
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import com.example.namhockey.data.Repository
+import com.example.namhockey.data.News
+import kotlinx.coroutines.flow.collectLatest
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.os.Build
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 
 @Composable
 fun HomeScreen() {
@@ -284,7 +294,38 @@ fun MatchStat(label: String, percent: String, value: String, highlight: Boolean 
 }
 
 @Composable
-fun NewsSection() {
+fun NewsSection(notificationsEnabled: Boolean = true) {
+    val context = LocalContext.current
+    val repository = remember { Repository() }
+    val newsList by repository.news.collectAsState(initial = emptyList())
+
+    // Show notification for the latest news
+    LaunchedEffect(newsList, notificationsEnabled) {
+        if (notificationsEnabled && newsList.isNotEmpty()) {
+            val latestNews = newsList.first()
+            val channelId = "news_channel"
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val name = "News Notifications"
+                val descriptionText = "Notifications for latest news"
+                val importance = NotificationManager.IMPORTANCE_DEFAULT
+                val channel = NotificationChannel(channelId, name, importance).apply {
+                    description = descriptionText
+                }
+                val notificationManager: NotificationManager =
+                    context.getSystemService(NotificationManager::class.java)
+                notificationManager.createNotificationChannel(channel)
+            }
+            val builder = NotificationCompat.Builder(context, channelId)
+                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                .setContentTitle(latestNews.title)
+                .setContentText(latestNews.content)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            with(NotificationManagerCompat.from(context)) {
+                notify(latestNews.id, builder.build())
+            }
+        }
+    }
+
     Column(
         modifier = Modifier
             .padding(16.dp)
@@ -296,23 +337,13 @@ fun NewsSection() {
             color = Color.Black,
             modifier = Modifier.padding(bottom = 12.dp)
         )
-
-        NewsCard(
-            title = "🏆 Team A Wins the Championship",
-            description = "Team A defeated Team B in a thrilling final match to secure the title."
-        )
-        Spacer(modifier = Modifier.height(12.dp))
-
-        NewsCard(
-            title = "🔥 Player X Breaks the Record",
-            description = "Player X sets a new record for most goals scored in a single season."
-        )
-        Spacer(modifier = Modifier.height(12.dp))
-
-        NewsCard(
-            title = "📅 Upcoming Match Preview",
-            description = "A detailed preview of the highly anticipated match between Team C and Team D."
-        )
+        newsList.forEach { news ->
+            NewsCard(
+                title = news.title,
+                description = news.content
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+        }
     }
 }
 
@@ -347,7 +378,6 @@ fun NewsCard(title: String, description: String) {
         }
     }
 }
-
 
 @Preview(showBackground = true, device = "id:medium_phone")
 @Composable
