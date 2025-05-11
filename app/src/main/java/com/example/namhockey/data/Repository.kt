@@ -99,4 +99,8 @@ class Repository {
             TeamStanding(4, "SEHC", 6, 3, 3, 0, 9, 2, 25, 46, -21, 11)
         )
     }
+
+    fun addNews(news: News) {
+        _news.value = listOf(news) + _news.value
+    }
 }

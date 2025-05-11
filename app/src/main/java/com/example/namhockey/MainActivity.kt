@@ -58,11 +58,6 @@ import androidx.compose.ui.unit.sp
 import com.example.namhockey.data.TeamRepository
 import com.example.namhockey.data.PlayerRepository
 import com.example.namhockey.data.EventRepository
-import com.example.namhockey.data.NewsRepository
-import com.example.namhockey.data.Team
-import com.example.namhockey.data.Player
-import com.example.namhockey.data.Event
-import com.example.namhockey.data.NewsItem
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -575,37 +570,40 @@ fun AddEventDialog(onDismiss: () -> Unit) {
 @Composable
 fun NewsScreen() {
     var showAddNews by remember { mutableStateOf(false) }
-    val news = remember { mutableStateListOf<NewsItem>() }
-    LaunchedEffect(Unit) {
-        news.clear()
-        news.addAll(NewsRepository.getNews())
-    }
+    val repository = remember { Repository() }
+    val newsList by repository.news.collectAsState(initial = emptyList())
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Text("News & Updates", style = MaterialTheme.typography.titleLarge)
         Button(onClick = { showAddNews = true }, modifier = Modifier.padding(vertical = 8.dp)) { Text("Add News") }
-        news.forEach { item ->
+        newsList.forEach { item ->
             Column(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
                 Text(item.title, fontWeight = FontWeight.Bold)
                 Text(item.content)
-                Text("Posted: ${item.timestamp}", style = MaterialTheme.typography.bodySmall)
+                Text("Posted: ${SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(Date(item.timestamp))}", style = MaterialTheme.typography.bodySmall)
             }
         }
     }
     if (showAddNews) {
-        AddNewsDialog(onDismiss = { showAddNews = false; news.clear(); news.addAll(NewsRepository.getNews()) })
+        AddNewsDialog(onDismiss = { showAddNews = false }, repository = repository)
     }
 }
 
 @Composable
-fun AddNewsDialog(onDismiss: () -> Unit) {
+fun AddNewsDialog(onDismiss: () -> Unit, repository: Repository) {
     var title by remember { mutableStateOf("") }
     var content by remember { mutableStateOf("") }
-    val timestamp = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(Date())
     AlertDialog(
         onDismissRequest = onDismiss,
         confirmButton = {
             Button(onClick = {
-                NewsRepository.addNews(NewsItem(0, title, content, timestamp))
+                repository.addNews(
+                    News(
+                        id = (System.currentTimeMillis() % Int.MAX_VALUE).toInt(),
+                        title = title,
+                        content = content,
+                        timestamp = System.currentTimeMillis()
+                    )
+                )
                 onDismiss()
             }, enabled = title.isNotBlank()) { Text("Add") }
         },

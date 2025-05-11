@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
@@ -52,14 +53,21 @@ import androidx.compose.runtime.remember
 
 @Composable
 fun HomeScreen() {
-    Column(modifier = Modifier.fillMaxSize()
-        .verticalScroll(rememberScrollState())) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(Color(0xFF1565C0), Color(0xFF80D8FF))
+                )
+            )
+            .verticalScroll(rememberScrollState())
+    ) {
         ProfileRow()
         Spacer(modifier = Modifier.height(16.dp))
         MatchScoreCard()
         MatchScreen()
         NewsSection() // Add the news section
-
     }
 }
 
@@ -69,10 +77,10 @@ fun ProfileRow() {
     val screenWidth = configuration.screenWidthDp.dp
     Row(
         modifier = Modifier
-            .fillMaxWidth() // Take up 90% of the screen width
+            .fillMaxWidth()
             .padding(16.dp)
-            .clip(RoundedCornerShape(16.dp)) // rounded corners
-            .border(2.dp, Color.DarkGray, RoundedCornerShape(16.dp)) // border with rounded corners
+            .clip(RoundedCornerShape(16.dp))
+            .border(2.dp, Color(0xFF1565C0), RoundedCornerShape(16.dp))
             .padding(16.dp)
             .width(screenWidth * 0.9f),
         verticalAlignment = Alignment.CenterVertically,
@@ -132,9 +140,9 @@ fun TimeBadge(time: String) {
 
 @Composable
 fun MatchScoreCard() {
-    val backgroundColor = Color.Black
+    val backgroundColor = Color(0xFF1565C0)
     val textColor = Color.White
-    val accentColor = Color.Gray
+    val accentColor = Color(0xFF80D8FF)
 
     Card(
         modifier = Modifier
@@ -256,7 +264,7 @@ fun MatchCard() {
         modifier = Modifier
             .padding(16.dp)
             .fillMaxWidth()
-            .background(Color(0xFF1E1E1E), shape = RoundedCornerShape(12.dp)),
+            .background(Color(0xFF1565C0), shape = RoundedCornerShape(12.dp)),
         elevation = CardDefaults.cardElevation(8.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -264,9 +272,9 @@ fun MatchCard() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("Everton", color = Color.Black)
-                Text("Tomorrow 16:00", color = Color.Black)
-                Text("Manchester City", color = Color.Black)
+                Text("Everton", color = Color.White, fontWeight = FontWeight.Bold)
+                Text("Tomorrow 16:00", color = Color(0xFF80D8FF), fontWeight = FontWeight.Bold)
+                Text("Manchester City", color = Color.White, fontWeight = FontWeight.Bold)
             }
             Spacer(modifier = Modifier.height(16.dp))
             Row(
@@ -283,7 +291,7 @@ fun MatchCard() {
 
 @Composable
 fun MatchStat(label: String, percent: String, value: String, highlight: Boolean = false) {
-    val bgColor = if (highlight) Color(0xFF00E676) else Color(0xFF333333)
+    val bgColor = if (highlight) Color(0xFF00B8D4) else Color(0xFF1565C0)
     Column(
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
@@ -332,12 +340,13 @@ fun NewsSection(notificationsEnabled: Boolean = true) {
     Column(
         modifier = Modifier
             .padding(16.dp)
+            .background(Color(0xFFE3F2FD), RoundedCornerShape(16.dp))
     ) {
         Text(
             text = "Latest News",
             fontSize = 22.sp,
             fontWeight = FontWeight.ExtraBold,
-            color = Color.Black,
+            color = Color(0xFF1565C0),
             modifier = Modifier.padding(bottom = 12.dp)
         )
         newsList.forEach { news ->
@@ -357,7 +366,7 @@ fun NewsCard(title: String, description: String) {
             .fillMaxWidth()
             .shadow(6.dp, RoundedCornerShape(16.dp)),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F5F5)),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFBBDEFB)),
         elevation = CardDefaults.cardElevation(6.dp)
     ) {
         Column(
@@ -368,14 +377,14 @@ fun NewsCard(title: String, description: String) {
                 text = title,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF212121),
+                color = Color(0xFF1565C0),
                 lineHeight = 22.sp
             )
             Spacer(modifier = Modifier.height(6.dp))
             Text(
                 text = description,
                 fontSize = 14.sp,
-                color = Color(0xFF616161),
+                color = Color(0xFF212121),
                 lineHeight = 20.sp
             )
         }
