@@ -9,14 +9,14 @@ data class TeamModel(
     val gender: String
 )
 
-data class Player(
+data class PlayerModel(
     val id: Int,
-    val teamId: Int,
+    val teamId: String,
     val name: String,
     val position: String,
     val role: String,
-    val goals: Int,
-    val rating: Float
+    val goals: String,
+    val rating: String
 )
 
 data class Match(

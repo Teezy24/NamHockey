@@ -14,7 +14,6 @@ import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -38,7 +37,6 @@ import kotlinx.coroutines.launch
 import com.example.namhockey.data.UserRepository
 import android.content.Context
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -51,7 +49,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -470,7 +467,8 @@ fun AddPlayerDialog(onDismiss: () -> Unit, teams: List<Team>) {
         onDismissRequest = onDismiss,
         confirmButton = {
             Button(onClick = {
-                PlayerRepository.addPlayer(Player(0, name, teamId, position, dob, email, phoneNumber))
+                PlayerRepository.addPlayer(Player(0, name,
+                    teamId.toString(), position, dob, email, phoneNumber))
                 onDismiss()
             }, enabled = name.isNotBlank()) { Text("Add") }
         },

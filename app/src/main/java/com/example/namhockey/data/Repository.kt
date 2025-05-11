@@ -4,14 +4,15 @@ import com.example.namhockey.R
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class Repository {
     private val _teams = MutableStateFlow<List<TeamModel>>(emptyList())
     val teams: Flow<List<TeamModel>> = _teams.asStateFlow()
 
-    private val _players = MutableStateFlow<List<Player>>(emptyList())
-    val players: Flow<List<Player>> = _players.asStateFlow()
+    private val _players = MutableStateFlow<List<PlayerModel>>(emptyList())
+    val players: StateFlow<List<PlayerModel>> = _players.asStateFlow()
 
     private val _matches = MutableStateFlow<List<Match>>(emptyList())
     val matches: Flow<List<Match>> = _matches.asStateFlow()
@@ -30,8 +31,8 @@ class Repository {
     private fun initializeMockData() {
         // Mock Teams
         val mockTeams = listOf(
-            TeamModel(1, "Saints", R.drawable.saintslogo, "2021 Bank Windhoek Premier League", "Indoor", "Men"),
-            TeamModel(2, "DTS", R.drawable.dtslogo, "2021 Bank Windhoek Premier League", "Indoor", "Men"),
+            TeamModel(1, "Saints", R.drawable.teamicon, "2021 Bank Windhoek Premier League", "Indoor", "Men"),
+            TeamModel(2, "DTS", R.drawable.teamicon, "2021 Bank Windhoek Premier League", "Indoor", "Men"),
             TeamModel(3, "WOBSC", R.drawable.teamicon, "2021 Bank Windhoek Premier League", "Indoor", "Men"),
             TeamModel(4, "SEHC", R.drawable.teamicon, "2021 Bank Windhoek Premier League", "Indoor", "Men")
         )
@@ -39,10 +40,10 @@ class Repository {
 
         // Mock Players
         val mockPlayers = listOf(
-            Player(1, 1, "Dr Naftali Indongo", "Forward", "Player", 5, 4.5f),
-            Player(2, 1, "Dr Simon Muchininenyika", "Defense", "Player", 2, 4.2f),
-            Player(3, 2, "Dr Gabirel Nhinda", "Forward", "Player", 7, 4.8f),
-            Player(4, 2, "Ms Rosetha Kays", "Goalkeeper", "Player", 0, 4.6f)
+            PlayerModel(1, 1.toString(), "Dr Naftali Indongo", "Forward", "Player", 5.toString(), 4.5f.toString()),
+            PlayerModel(2, 1.toString(), "Dr Simon Muchininenyika", "Defense", "Player", 2.toString(), 4.2f.toString()),
+            PlayerModel(3, 2.toString(), "Dr Gabirel Nhinda", "Forward", "Player", 7.toString(), 4.8f.toString()),
+            PlayerModel(4, 2.toString(), "Ms Rosetha Kays", "Goalkeeper", "Player", 0.toString(), 4.6f.toString())
         )
         _players.value = mockPlayers
 
@@ -76,7 +77,7 @@ class Repository {
         return _teams.value.filter { it.league == league }
     }
 
-    fun getPlayersByTeam(teamId: Int): List<Player> {
+    fun getPlayersByTeam(teamId: String): List<PlayerModel> {
         return _players.value.filter { it.teamId == teamId }
     }
 
