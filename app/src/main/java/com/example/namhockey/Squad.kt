@@ -164,7 +164,7 @@ fun TeamListItem(team: TeamUi, onClick: () -> Unit) {
 }
 
 @Composable
-fun TeamRosterTable(manager: Manager, players: List<Player>) {
+fun TeamRosterTable(manager: Manager, players: List<MockPlayer>) {
     Column(modifier = Modifier.fillMaxWidth()) {
         // Table header
         Row(
@@ -303,9 +303,9 @@ fun TeamDetailView(team: TeamUi, onBackClicked: () -> Unit) {
     val manager = remember { Manager("Manager", "M") }
     val players = remember {
         listOf(
-            Player(1, "Player 1", "CM", "C", 5.toString(), 4.5f.toString()),
-            Player(2, "Player 2", "GK", "", 0.toString(), 4.2f.toString()),
-            Player(3, "Player 3", "D", "", 2.toString(), 4.0f.toString())
+            MockPlayer(1, "Player 1", "CM", "C", 5, 4.5f),
+            MockPlayer(2, "Player 2", "GK", "", 0, 4.2f),
+            MockPlayer(3, "Player 3", "D", "", 2, 4.0f)
         )
     }
 
