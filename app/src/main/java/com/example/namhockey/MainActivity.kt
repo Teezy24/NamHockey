@@ -67,11 +67,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-
-
-
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.collectAsState
+import com.example.namhockey.data.Event
+import com.example.namhockey.data.News
+import com.example.namhockey.data.Player
+import com.example.namhockey.data.Repository
+import com.example.namhockey.data.Team
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -463,7 +464,7 @@ fun AddPlayerDialog(onDismiss: () -> Unit, teams: List<Team>) {
         confirmButton = {
             Button(onClick = {
                 PlayerRepository.addPlayer(Player(0, name,
-                    teamId.toString(), position, dob, email, phoneNumber))
+                    teamId.toString(), position, dob, email, phoneNumber, role = "", goals = 0, rating = 0f))
                 onDismiss()
             }, enabled = name.isNotBlank()) { Text("Add") }
         },

@@ -23,16 +23,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.namhockey.data.Player
 import kotlin.text.contains
 
 // Mock data classes
-data class TeamUiUi(
+data class TeamUi(
     val id: Int,
     val name: String,
     val logoResId: Int = R.drawable.teamicon // Default placeholder
 )
 
-data class Player(
+data class MockPlayer(
     val id: Int,
     val name: String,
     val position: String,
@@ -50,10 +51,8 @@ data class Manager(
 @Composable
 fun TeamsListView(
     teams: List<TeamUi>,
-    teams: List<TeamUi>,
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,
-    onTeamSelected: (TeamUi) -> Unit,
     onTeamSelected: (TeamUi) -> Unit,
     onAddTeamClicked: () -> Unit,
     onAddPlayerClicked: () -> Unit
@@ -131,7 +130,7 @@ fun TeamsListView(
 }
 
 @Composable
-fun TeamListItem(team: TeamUi, onClick: () -> Unit) {
+
 fun TeamListItem(team: TeamUi, onClick: () -> Unit) {
     Row(
         modifier = Modifier
@@ -297,16 +296,16 @@ fun TeamRosterTable(manager: Manager, players: List<Player>) {
     }
 }
 
+
 @Composable
-fun TeamDetailView(team: TeamUi, onBackClicked: () -> Unit) {
 fun TeamDetailView(team: TeamUi, onBackClicked: () -> Unit) {
     // Mock data for team details
     val manager = remember { Manager("Manager", "M") }
     val players = remember {
         listOf(
-            Player(1, "Player 1", "CM", "C", 5, 4.5f),
-            Player(2, "Player 2", "GK", "", 0, 4.2f),
-            Player(3, "Player 3", "D", "", 2, 4.0f)
+            Player(1, "Player 1", "CM", "C", 5.toString(), 4.5f.toString()),
+            Player(2, "Player 2", "GK", "", 0.toString(), 4.2f.toString()),
+            Player(3, "Player 3", "D", "", 2.toString(), 4.0f.toString())
         )
     }
 
