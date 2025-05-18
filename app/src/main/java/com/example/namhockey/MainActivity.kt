@@ -1,10 +1,13 @@
 package com.example.namhockey
 
+import android.app.Application
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -16,17 +19,26 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.namhockey.data.*
 import com.example.namhockey.ui.screens.HomeScreen
+import com.example.namhockey.ui.theme.NamHockeyTheme
 import com.example.namhockey.ui.viewmodels.HomeViewModel
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -233,6 +245,7 @@ fun MainScreen(
 ) {
     val tabs = listOf("Home", "Standings", "Squad", "Events", "News", "Settings")
     var selectedTab by remember { mutableIntStateOf(0) }
+    val context = LocalContext.current
     
     Scaffold(
         bottomBar = {
@@ -251,7 +264,7 @@ fun MainScreen(
             contentAlignment = Alignment.Center
         ) {
             when (selectedTab) {
-                0 -> HomeScreen(viewModel = HomeViewModel(getApplication()))
+                0 -> HomeScreen(viewModel = HomeViewModel(context.applicationContext as Application))
                 1 -> StandingsScreen()
                 2 -> SquadScreenSimple()
                 3 -> EventScreen()
