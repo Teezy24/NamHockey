@@ -26,6 +26,7 @@ import com.example.namhockey.ui.theme.NamHockeyTheme
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.core.app.ComponentActivity
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
