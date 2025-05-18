@@ -76,6 +76,7 @@ import com.example.namhockey.data.Repository
 import com.example.namhockey.data.Team
 import com.example.namhockey.ui.screens.HomeScreen
 import com.example.namhockey.ui.viewmodels.HomeViewModel
+import java.lang.reflect.Modifier
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
