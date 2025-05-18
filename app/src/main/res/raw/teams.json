@@ -1,0 +1,44 @@
+{
+  "teams": [
+    {
+      "id": "windhoek_wasps",
+      "name": "Windhoek Wasps",
+      "city": "Windhoek",
+      "founded": 1995,
+      "homeVenue": "Windhoek Hockey Stadium",
+      "colors": ["Yellow", "Black"],
+      "logo": "wasps_logo",
+      "description": "The Windhoek Wasps are known for their aggressive playing style and strong defensive tactics."
+    },
+    {
+      "id": "coastal_sharks",
+      "name": "Coastal Sharks",
+      "city": "Swakopmund",
+      "founded": 1998,
+      "homeVenue": "Coastal Arena",
+      "colors": ["Blue", "Grey"],
+      "logo": "sharks_logo",
+      "description": "Based in the coastal city of Swakopmund, the Sharks are famous for their fast-paced attacking style."
+    },
+    {
+      "id": "desert_eagles",
+      "name": "Desert Eagles",
+      "city": "Walvis Bay",
+      "founded": 2000,
+      "homeVenue": "Desert Sports Complex",
+      "colors": ["Brown", "Gold"],
+      "logo": "eagles_logo",
+      "description": "The Desert Eagles represent the spirit of Walvis Bay with their endurance and tactical gameplay."
+    },
+    {
+      "id": "northern_wolves",
+      "name": "Northern Wolves",
+      "city": "Oshakati",
+      "founded": 2002,
+      "homeVenue": "Northern Ice Arena",
+      "colors": ["Grey", "White"],
+      "logo": "wolves_logo",
+      "description": "Known for their pack mentality and team coordination, the Wolves are a force to be reckoned with."
+    }
+  ]
+} 

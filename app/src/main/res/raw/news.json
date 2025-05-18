@@ -1,0 +1,31 @@
+{
+  "news": [
+    {
+      "id": "news_001",
+      "title": "Windhoek Wasps Clinch Victory in Thrilling Match",
+      "content": "In an exciting match at the Windhoek Hockey Stadium, the Windhoek Wasps emerged victorious against the Coastal Sharks with a score of 3-2. John Smith scored the winning goal in the final minutes of the game.",
+      "timestamp": 1710806400000,
+      "author": "Sarah Johnson",
+      "imageUrl": null,
+      "tags": ["Match Report", "Windhoek Wasps", "Coastal Sharks"]
+    },
+    {
+      "id": "news_002",
+      "title": "National Team Selection Announced",
+      "content": "The Namibian Hockey Federation has announced the national team selection for the upcoming African Championship. The squad includes players from various clubs, with a strong representation from the Desert Eagles.",
+      "timestamp": 1710892800000,
+      "author": "Michael van der Merwe",
+      "imageUrl": null,
+      "tags": ["National Team", "Selection", "African Championship"]
+    },
+    {
+      "id": "news_003",
+      "title": "Youth Development Program Launches",
+      "content": "A new youth development program has been launched in partnership with all major clubs. The program aims to nurture young talent and create a sustainable pipeline for future hockey stars.",
+      "timestamp": 1710979200000,
+      "author": "David Shikongo",
+      "imageUrl": null,
+      "tags": ["Youth", "Development", "Training"]
+    }
+  ]
+} 

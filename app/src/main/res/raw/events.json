@@ -1,0 +1,34 @@
+{
+  "events": [
+    {
+      "id": "event_001",
+      "name": "Nam Hockey Championship 2024",
+      "date": "2024-04-15",
+      "location": "Windhoek Hockey Stadium",
+      "description": "Annual national hockey championship featuring top teams from across Namibia.",
+      "teamIds": ["windhoek_wasps", "coastal_sharks", "desert_eagles", "northern_wolves"],
+      "type": "Tournament",
+      "status": "Upcoming"
+    },
+    {
+      "id": "event_002",
+      "name": "Coastal Cup",
+      "date": "2024-05-01",
+      "location": "Coastal Arena, Swakopmund",
+      "description": "Regional tournament for coastal region teams.",
+      "teamIds": ["coastal_sharks", "desert_eagles"],
+      "type": "Cup",
+      "status": "Registration Open"
+    },
+    {
+      "id": "event_003",
+      "name": "Youth Development Camp",
+      "date": "2024-06-10",
+      "location": "Northern Ice Arena, Oshakati",
+      "description": "Training camp for young hockey players aged 12-16.",
+      "teamIds": ["northern_wolves"],
+      "type": "Camp",
+      "status": "Planning"
+    }
+  ]
+} 

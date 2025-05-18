@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -73,18 +74,26 @@ import com.example.namhockey.data.News
 import com.example.namhockey.data.Player
 import com.example.namhockey.data.Repository
 import com.example.namhockey.data.Team
+import com.example.namhockey.ui.screens.HomeScreen
+import com.example.namhockey.ui.viewmodels.HomeViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        
+        val viewModel: HomeViewModel by viewModels()
+        
         setContent {
             var darkMode by remember { mutableStateOf(false) }
             var notificationsEnabled by remember { mutableStateOf(true) }
             var isLoggedIn by remember { mutableStateOf(UserRepository.isLoggedIn(this)) }
             var favoriteTeam by remember { mutableStateOf(UserRepository.getFavoriteTeam(this)) }
             NamHockeyTheme(darkTheme = darkMode) {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
                     if (!isLoggedIn) {
                         LoginScreen(
                             context = this,
@@ -289,7 +298,7 @@ fun MainScreen(
             contentAlignment = Alignment.Center
         ) {
             when (selectedTab) {
-                0 -> HomeScreen(favoriteTeam = favoriteTeam)
+                0 -> HomeScreen(viewModel = HomeViewModel())
                 1 -> StandingsScreen()
                 2 -> SquadScreenSimple()
                 3 -> EventScreen()
@@ -333,15 +342,15 @@ fun BottomNavigationBar(
 }
 
 @Composable
-fun HomeScreen(favoriteTeam: String?) {
+fun HomeScreen(viewModel: HomeViewModel) {
     Column(modifier = Modifier.fillMaxSize()) {
-        if (favoriteTeam != null) {
+        if (viewModel.favoriteTeam != null) {
             Surface(
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = "Favourite Team: $favoriteTeam",
+                    text = "Favourite Team: ${viewModel.favoriteTeam}",
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.padding(16.dp)

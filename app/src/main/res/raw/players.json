@@ -1,0 +1,52 @@
+{
+  "players": [
+    {
+      "id": "player_001",
+      "name": "John Smith",
+      "teamId": "windhoek_wasps",
+      "number": 10,
+      "position": "Forward",
+      "dateOfBirth": "1995-03-15",
+      "nationality": "Namibian",
+      "height": 180,
+      "weight": 75,
+      "stats": {
+        "goals": 25,
+        "assists": 15,
+        "gamesPlayed": 45
+      }
+    },
+    {
+      "id": "player_002",
+      "name": "Michael van der Merwe",
+      "teamId": "coastal_sharks",
+      "number": 23,
+      "position": "Defense",
+      "dateOfBirth": "1993-07-22",
+      "nationality": "Namibian",
+      "height": 185,
+      "weight": 82,
+      "stats": {
+        "goals": 5,
+        "assists": 20,
+        "gamesPlayed": 42
+      }
+    },
+    {
+      "id": "player_003",
+      "name": "David Shikongo",
+      "teamId": "desert_eagles",
+      "number": 7,
+      "position": "Forward",
+      "dateOfBirth": "1997-11-30",
+      "nationality": "Namibian",
+      "height": 178,
+      "weight": 73,
+      "stats": {
+        "goals": 30,
+        "assists": 12,
+        "gamesPlayed": 40
+      }
+    }
+  ]
+} 

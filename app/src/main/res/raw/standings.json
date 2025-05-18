@@ -1,0 +1,49 @@
+{
+  "standings": [
+    {
+      "teamId": "windhoek_wasps",
+      "position": 1,
+      "gamesPlayed": 20,
+      "wins": 15,
+      "losses": 3,
+      "draws": 2,
+      "goalsFor": 75,
+      "goalsAgainst": 45,
+      "points": 47
+    },
+    {
+      "teamId": "coastal_sharks",
+      "position": 2,
+      "gamesPlayed": 20,
+      "wins": 13,
+      "losses": 4,
+      "draws": 3,
+      "goalsFor": 68,
+      "goalsAgainst": 50,
+      "points": 42
+    },
+    {
+      "teamId": "desert_eagles",
+      "position": 3,
+      "gamesPlayed": 20,
+      "wins": 12,
+      "losses": 5,
+      "draws": 3,
+      "goalsFor": 65,
+      "goalsAgainst": 55,
+      "points": 39
+    },
+    {
+      "teamId": "northern_wolves",
+      "position": 4,
+      "gamesPlayed": 20,
+      "wins": 10,
+      "losses": 7,
+      "draws": 3,
+      "goalsFor": 58,
+      "goalsAgainst": 52,
+      "points": 33
+    }
+  ],
+  "lastUpdated": "2024-03-19"
+} 
