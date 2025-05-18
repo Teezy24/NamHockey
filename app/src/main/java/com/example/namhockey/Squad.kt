@@ -366,12 +366,12 @@ fun HorizontalDivider(
 }
 
 
-//@Composable
-//fun SquadScreenAdavanced() {
-//    var selectedTeam by remember { mutableStateOf<TeamUi?>(null) }
-//    var searchQuery by remember { mutableStateOf("") }
-//    var showAddTeamForm by remember { mutableStateOf(false) }
-//    var showAddPlayerForm by remember { mutableStateOf(false) }
+@Composable
+fun SquadScreenAdavanced() {
+    var selectedTeam by remember { mutableStateOf<TeamUi?>(null) }
+    var searchQuery by remember { mutableStateOf("") }
+    var showAddTeamForm by remember { mutableStateOf(false) }
+    var showAddPlayerForm by remember { mutableStateOf(false) }
 
     // Mock data
     val teams = *remember {
@@ -381,12 +381,6 @@ fun HorizontalDivider(
             TeamUi(3, "Team #3"),
             TeamUi(4, "Team #4"),
             TeamUi(5, "Team #5")
-            TeamUi(1, "Team #1"),
-            TeamUi(2, "Team #2"),
-            TeamUi(3, "Team #3"),
-            TeamUi(4, "Team #4"),
-            TeamUi(5, "Team #5")
-        )
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
