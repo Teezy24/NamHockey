@@ -7,8 +7,8 @@ data class Player(
     val position: String,
     val dob: String,
     val email: String,
-    val phoneNumber: String
-    val role: String
+    val phoneNumber: String,
+    val role: String,
     val goals: Int,
     val rating: Float
 )
