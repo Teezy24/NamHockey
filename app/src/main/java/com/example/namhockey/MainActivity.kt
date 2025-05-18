@@ -89,6 +89,7 @@ class MainActivity : ComponentActivity() {
             var notificationsEnabled by remember { mutableStateOf(true) }
             var isLoggedIn by remember { mutableStateOf(UserRepository.isLoggedIn(this)) }
             var favoriteTeam by remember { mutableStateOf(UserRepository.getFavoriteTeam(this)) }
+            
             NamHockeyTheme(darkTheme = darkMode) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -109,7 +110,6 @@ class MainActivity : ComponentActivity() {
                         )
                     } else {
                         MainScreen(
-                            modifier = Modifier.padding(innerPadding),
                             darkMode = darkMode,
                             onDarkModeChanged = { darkMode = it },
                             notificationsEnabled = notificationsEnabled,
@@ -271,7 +271,6 @@ fun FavoriteTeamScreen(context: Context, onTeamSelected: (String) -> Unit) {
 
 @Composable
 fun MainScreen(
-    modifier: Modifier = Modifier,
     darkMode: Boolean,
     onDarkModeChanged: (Boolean) -> Unit,
     notificationsEnabled: Boolean,
@@ -281,6 +280,7 @@ fun MainScreen(
 ) {
     val tabs = listOf("Home", "Standings", "Squad", "Events", "News", "Settings")
     var selectedTab by remember { mutableIntStateOf(0) }
+    
     Scaffold(
         bottomBar = {
             BottomNavigationBar(
@@ -289,16 +289,16 @@ fun MainScreen(
                 onTabSelected = { selectedTab = it }
             )
         },
-        modifier = modifier
-    ) { innerPadding ->
+        modifier = Modifier.fillMaxSize()
+    ) { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding),
+                .padding(paddingValues),
             contentAlignment = Alignment.Center
         ) {
             when (selectedTab) {
-                0 -> HomeScreen(viewModel = HomeViewModel())
+                0 -> HomeScreen(viewModel = HomeViewModel(getApplication()))
                 1 -> StandingsScreen()
                 2 -> SquadScreenSimple()
                 3 -> EventScreen()
