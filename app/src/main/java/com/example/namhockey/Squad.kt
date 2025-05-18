@@ -365,17 +365,16 @@ fun HorizontalDivider(
     )
 }
 
-@Composable
-fun SquadScreenAdvanced() {
-    var selectedTeam by remember { mutableStateOf<TeamUi?>(null) }
-fun SquadScreenAdavanced() {
-    var selectedTeam by remember { mutableStateOf<TeamUi?>(null) }
-    var searchQuery by remember { mutableStateOf("") }
-    var showAddTeamForm by remember { mutableStateOf(false) }
-    var showAddPlayerForm by remember { mutableStateOf(false) }
+
+//@Composable
+//fun SquadScreenAdavanced() {
+//    var selectedTeam by remember { mutableStateOf<TeamUi?>(null) }
+//    var searchQuery by remember { mutableStateOf("") }
+//    var showAddTeamForm by remember { mutableStateOf(false) }
+//    var showAddPlayerForm by remember { mutableStateOf(false) }
 
     // Mock data
-    val teams = remember {
+    val teams = *remember {
         listOf(
             TeamUi(1, "Team #1"),
             TeamUi(2, "Team #2"),
