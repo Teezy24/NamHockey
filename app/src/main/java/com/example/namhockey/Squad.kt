@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.namhockey.data.Player
+import java.lang.reflect.Modifier
 import kotlin.text.contains
 
 // Mock data classes
