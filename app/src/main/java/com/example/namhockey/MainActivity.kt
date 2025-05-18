@@ -1,15 +1,6 @@
 package com.example.namhockey
 
-import android.app.Application
-import android.content.Context
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import com.example.namhockey.ui.theme.NamHockeyTheme
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalApplication
 import android.os.Bundle
-import android.text.Layout.Alignment
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -35,12 +26,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.namhockey.data.*
 import com.example.namhockey.ui.screens.HomeScreen
-import com.example.namhockey.ui.theme.NamHockeyTheme
 import com.example.namhockey.ui.viewmodels.HomeViewModel
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlinx.coroutines.launch
-import java.lang.reflect.Modifier
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -245,8 +233,7 @@ fun MainScreen(
 ) {
     val tabs = listOf("Home", "Standings", "Squad", "Events", "News", "Settings")
     var selectedTab by remember { mutableIntStateOf(0) }
-    val context = LocalContext.current
-
+    
     Scaffold(
         bottomBar = {
             BottomNavigationBar(
@@ -264,7 +251,7 @@ fun MainScreen(
             contentAlignment = Alignment.Center
         ) {
             when (selectedTab) {
-                0 -> HomeScreen(viewModel = HomeViewModel(context.applicationContext as Application))
+                0 -> HomeScreen(viewModel = HomeViewModel(getApplication()))
                 1 -> StandingsScreen()
                 2 -> SquadScreenSimple()
                 3 -> EventScreen()
