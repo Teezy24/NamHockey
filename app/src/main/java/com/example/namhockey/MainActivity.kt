@@ -67,11 +67,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-
-
-
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.size
+import com.example.namhockey.data.Team
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import kotlin.text.contains
 
 // Mock data classes
-data class TeamUiUi(
+data class TeamUi(
     val id: Int,
     val name: String,
     val logoResId: Int = R.drawable.teamicon // Default placeholder
@@ -49,12 +49,12 @@ data class Manager(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TeamsListView(
-    teams: List<TeamUi>,
+
     teams: List<TeamUi>,
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,
     onTeamSelected: (TeamUi) -> Unit,
-    onTeamSelected: (TeamUi) -> Unit,
+
     onAddTeamClicked: () -> Unit,
     onAddPlayerClicked: () -> Unit
 ) {
@@ -131,7 +131,7 @@ fun TeamsListView(
 }
 
 @Composable
-fun TeamListItem(team: TeamUi, onClick: () -> Unit) {
+
 fun TeamListItem(team: TeamUi, onClick: () -> Unit) {
     Row(
         modifier = Modifier
@@ -299,7 +299,6 @@ fun TeamRosterTable(manager: Manager, players: List<Player>) {
 
 @Composable
 fun TeamDetailView(team: TeamUi, onBackClicked: () -> Unit) {
-fun TeamDetailView(team: TeamUi, onBackClicked: () -> Unit) {
     // Mock data for team details
     val manager = remember { Manager("Manager", "M") }
     val players = remember {
@@ -367,9 +366,8 @@ fun HorizontalDivider(
 }
 
 @Composable
-fun SquadScreenAdvanced() {
-    var selectedTeam by remember { mutableStateOf<TeamUi?>(null) }
-fun SquadScreenAdavanced() {
+
+fun SquadScreen() {
     var selectedTeam by remember { mutableStateOf<TeamUi?>(null) }
     var searchQuery by remember { mutableStateOf("") }
     var showAddTeamForm by remember { mutableStateOf(false) }
@@ -378,11 +376,6 @@ fun SquadScreenAdavanced() {
     // Mock data
     val teams = remember {
         listOf(
-            TeamUi(1, "Team #1"),
-            TeamUi(2, "Team #2"),
-            TeamUi(3, "Team #3"),
-            TeamUi(4, "Team #4"),
-            TeamUi(5, "Team #5")
             TeamUi(1, "Team #1"),
             TeamUi(2, "Team #2"),
             TeamUi(3, "Team #3"),
