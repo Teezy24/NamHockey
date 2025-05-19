@@ -11,22 +11,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.namhockey.navigation.AppNavigation
+import com.example.namhockey.navigation.Screen
 import com.example.namhockey.ui.theme.NamHockeyTheme
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.Icon
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.core.app.ComponentActivity
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,40 +27,24 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             NamHockeyTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen(modifier = Modifier.padding(innerPadding)) // Added missing modifier parameter
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    bottomBar = {
+                        BottomNavigationBar(
+                            tabs = listOf("Home", "Standings", "Squad", "Settings"),
+                            selectedTab = 0,
+                            onTabSelected = { /* Navigation will be handled by NavController */ }
+                        )
+                    }
+                ) { innerPadding ->
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)
+                    ) {
+                        AppNavigation()
+                    }
                 }
-            }
-        }
-    }
-}
-
-@Composable
-fun MainScreen(modifier: Modifier = Modifier) { // Added modifier parameter with default value
-    val tabs = listOf("Home", "Standings", "Squad", "Settings")
-    var selectedTab by remember { mutableIntStateOf(0) }
-    Scaffold(
-        bottomBar = {
-            BottomNavigationBar(
-                tabs = tabs,
-                selectedTab = selectedTab,
-                onTabSelected = { selectedTab = it }
-            )
-        },
-        modifier = modifier // Pass the modifier here
-    ) { innerPadding ->
-        // Main content goes here
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
-            contentAlignment = Alignment.Center
-        ) {
-            when (selectedTab) {
-                0 -> HomeScreen()
-                1 -> StandingsScreen()
-                2 -> SquadScreen()
-                3 -> Text("Settings Screen")
             }
         }
     }
@@ -94,17 +71,15 @@ fun BottomNavigationBar(
                         else -> Icon(Icons.Default.Home, contentDescription = null)
                     }
                 }
-            ) // Corrected missing closing parenthesis
+            )
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun NamHockey() {
+fun NamHockeyPreview() {
     NamHockeyTheme {
-        MainScreen()
-        StandingsScreen()
-        SquadScreen()
+        AppNavigation()
     }
 }
